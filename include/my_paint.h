@@ -24,15 +24,18 @@
     #include <math.h>
     #include <string.h>
     #include <stdarg.h>
+    #define FONT_PATH "assets/font.ttf"
+    #define MENUBAR_HEIGHT 30
 
-typedef struct menubutton_s {
-    struct button_s *prev;
+typedef struct menubutton_s button_t;
+struct menubutton_s {
+    button_t *prev;
     sfRectangleShape *button;
     char *string;
     sfText *text;
     int button_size;
-    struct button_s *next;
-} button_t;
+    button_t *next;
+};
 
 typedef struct menubar_s {
     sfRectangleShape *bar;
@@ -49,5 +52,11 @@ int my_paint(int ac, char **av);
 sfRenderWindow *create_window(unsigned int width, unsigned int height);
 void *my_malloc(unsigned int size);
 int my_strlen(char const *str);
+button_t *initbutton(sfVector2f pos, sfVector2f size, char *text);
+menubar_t *initmenubar(int nbbuttons, global_t *global, ...);
+int display(global_t *global);
+int update(global_t *global);
+void display_menubar(sfRenderWindow *window, menubar_t *menubar);
+char *my_strdup(char const *src);
 
 #endif /* !MY_PAINT_H_ */

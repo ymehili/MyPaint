@@ -2,13 +2,12 @@
 ** EPITECH PROJECT, 2024
 ** B-MUL-200-LYN-2-1-mypaint-lucas.leclerc
 ** File description:
-** main
+** update
 */
 
-#include "include/my_paint.h"
+#include "../include/my_paint.h"
 
-int main(int ac, char **av)
+int update(global_t *global)
 {
-    my_paint(ac, av);
     return 0;
 }
