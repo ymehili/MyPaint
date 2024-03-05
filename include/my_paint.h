@@ -23,10 +23,26 @@
     #include <SFML/Audio.h>
     #include <math.h>
     #include <string.h>
+    #include <stdarg.h>
+
+typedef struct menubutton_s {
+    struct button_s *prev;
+    sfRectangleShape *button;
+    char *string;
+    sfText *text;
+    int button_size;
+    struct button_s *next;
+} button_t;
+
+typedef struct menubar_s {
+    sfRectangleShape *bar;
+    button_t *buttons;
+} menubar_t;
 
 typedef struct global_s {
     sfRenderWindow *window;
     sfEvent event;
+    menubar_t *menubar;
 } global_t;
 
 int my_paint(int ac, char **av);

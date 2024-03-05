@@ -11,3 +11,4 @@ unit_tests
 .vscode/*
 .vscode
 my_paint
+coding-style-reports.log
