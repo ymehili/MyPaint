@@ -22,8 +22,16 @@
     #include <SFML/System/Vector2.h>
     #include <SFML/Audio.h>
     #include <math.h>
+    #include <string.h>
 
+typedef struct global_s {
+    sfRenderWindow *window;
+    sfEvent event;
+} global_t;
 
 int my_paint(int ac, char **av);
+sfRenderWindow *create_window(unsigned int width, unsigned int height);
+void *my_malloc(unsigned int size);
+int my_strlen(char const *str);
 
 #endif /* !MY_PAINT_H_ */

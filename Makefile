@@ -21,6 +21,7 @@ all: $(SOURCES_FILES) $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS_FILES)
 	$(CC) $^ $(LDFLAGS) -o $@
+	make clean
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@

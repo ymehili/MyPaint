@@ -11,6 +11,6 @@ void *my_malloc(unsigned int size)
 {
     void *ptr = malloc(size);
 
-    my_memset(ptr, 0, size);
+    memset(ptr, 0, size);
     return ptr;
 }
