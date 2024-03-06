@@ -48,7 +48,6 @@ int display_dropdown(global_t *global, void *dropdown_menu)
 int check_dropdown_hover(global_t *global, void *dropdown_menu)
 {
     dropdown_menu_t *dropdown = (dropdown_menu_t *)dropdown_menu;
-    sfRenderWindow *window = global->window;
     sfVector2i mouse = sfMouse_getPositionRenderWindow(global->window);
     sfVector2f dd_pos = sfRectangleShape_getPosition(dropdown->shape);
     sfVector2f dd_size = sfRectangleShape_getSize(dropdown->shape);
@@ -67,13 +66,11 @@ int check_dropdown_hover(global_t *global, void *dropdown_menu)
 }
 
 dropdown_menu_t *init_dropdown(sfVector2f pos,
-    int nbbutton, global_t *global, ...)
+    int nbbutton, global_t *global, va_list ls)
 {
     dropdown_menu_t *menu = malloc(sizeof(dropdown_menu_t));
-    va_list ls;
     sfVector2f size = (sfVector2f){150, MENUBAR_HEIGHT};
 
-    va_start(ls, global);
     size.y = init_dropdown_btns(ls, nbbutton, pos, menu);
     menu->shape = sfRectangleShape_create();
     sfRectangleShape_setFillColor(menu->shape, sfColor_fromRGB(200, 200, 200));

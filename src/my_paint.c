@@ -12,7 +12,10 @@ global_t *initglobal(void)
     global_t *global = malloc(sizeof(global_t));
 
     global->window = create_window(1920, 1080);
-    global->menubar = initmenubar(3, global, "File", "Edit", "Help_me_please");
+    global->menubar = initmenubar(3, global, "File", "Edit", "Help");
+    add_dd_menu(global, "File", 4, "New", "Open", "Save", "close");
+    add_dd_menu(global, "Edit", 3, "copy", "past", "cut");
+    add_dd_menu(global, "Help", 2, "doc", "helper");
     return (global);
 }
 

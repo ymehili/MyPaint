@@ -7,14 +7,22 @@
 
 #include "../include/my_paint.h"
 
-static void add_dd(global_t *global, sfVector2f pos, button_t *tmp)
+dropdown_menu_t *add_dd_menu(global_t *global, char *text, int nbbuttons, ...)
 {
-    dropdown_menu_t *dd_menu = init_dropdown(
-        (sfVector2f){pos.x, pos.y + MENUBAR_HEIGHT},
-        4, global, "open", "save", "save in", "close");
+    button_t *tmp = global->menubar->buttons;
+    va_list buttons;
+    sfVector2f pos;
 
-    tmp->hover_func = &display_dropdown;
-    tmp->hover_param = dd_menu;
+    va_start(buttons, nbbuttons);
+    for (; tmp != NULL; tmp = tmp->next) {
+        if (my_strcmp(tmp->string, text) == 0) {
+            pos = sfRectangleShape_getPosition(tmp->button);
+            pos.y += MENUBAR_HEIGHT;
+            tmp->hover_param = init_dropdown(pos, nbbuttons, global, buttons);
+            return tmp->hover_param;
+        }
+    }
+    return 0;
 }
 
 static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
@@ -36,7 +44,7 @@ static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
             menubar->buttons->prev = tmp;
         }
         menubar->buttons = tmp;
-        add_dd(global, pos, tmp);
+        tmp->hover_func = &display_dropdown;
         pos.x += my_strlen(text) * 16 + MENUBAR_BTN_MARGIN + 2;
     }
 }
