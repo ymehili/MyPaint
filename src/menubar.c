@@ -14,10 +14,11 @@ static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
     sfVector2f pos = {0, 0};
     button_t *tmp = NULL;
     sfVector2f size = (sfVector2f){0, MENUBAR_HEIGHT};
+    dropdown_menu_t *dd_menu;
 
     for (int i = 0; i < nbbuttons; i++) {
         text = my_strdup(va_arg(buttons, char *));
-        size.x = my_strlen(text) * 20 + 10;
+        size.x = my_strlen(text) * 16 + MENUBAR_BTN_MARGIN;
         tmp = initbutton(pos, size, text);
         sfRectangleShape_setFillColor(tmp->button,
             sfColor_fromRGB(135, 135, 135));
@@ -28,7 +29,11 @@ static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
             menubar->buttons->prev = tmp;
             menubar->buttons = tmp;
         }
-        pos.x += my_strlen(text) * 20 + 10 + 2;
+        dd_menu = init_dropdown((sfVector2f){pos.x, pos.y + MENUBAR_HEIGHT},
+            4, global, "open", "save", "save in", "close");
+        tmp->hover_func = &display_dropdown;
+        tmp->hover_param = dd_menu;
+        pos.x += my_strlen(text) * 16 + MENUBAR_BTN_MARGIN + 2;
     }
 }
 

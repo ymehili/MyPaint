@@ -26,27 +26,38 @@
     #include <stdarg.h>
     #define FONT_PATH "assets/font.ttf"
     #define MENUBAR_HEIGHT 30
+    #define MENUBAR_BTN_MARGIN 10
 
-typedef struct menubutton_s button_t;
-struct menubutton_s {
+typedef struct button_s button_t;
+typedef struct global_s global_t;
+struct button_s {
     button_t *prev;
     sfRectangleShape *button;
     char *string;
     sfText *text;
     int button_size;
     button_t *next;
+    int (*hover_func)(global_t *, void *);
+    int (*click_func)(global_t *, void *);
+    void *hover_param;
+    void *click_param;
 };
+
+typedef struct dropdown_menu_s {
+    button_t *buttons;
+    sfRectangleShape *shape;
+} dropdown_menu_t;
 
 typedef struct menubar_s {
     sfRectangleShape *bar;
     button_t *buttons;
 } menubar_t;
 
-typedef struct global_s {
+struct global_s {
     sfRenderWindow *window;
     sfEvent event;
     menubar_t *menubar;
-} global_t;
+};
 
 int my_paint(int ac, char **av);
 sfRenderWindow *create_window(unsigned int width, unsigned int height);
@@ -58,5 +69,9 @@ int display(global_t *global);
 int update(global_t *global);
 void display_menubar(sfRenderWindow *window, menubar_t *menubar);
 char *my_strdup(char const *src);
+dropdown_menu_t *init_dropdown(sfVector2f pos, int nbbutton, global_t *global, ...);
+int display_dropdown(global_t *global, void *dropdown_menu);
+int check_click_btn(global_t *global, button_t *btn);
+int check_hover_btn(global_t *global, button_t *btn);
 
 #endif /* !MY_PAINT_H_ */

@@ -12,7 +12,7 @@ global_t *initglobal(void)
     global_t *global = malloc(sizeof(global_t));
 
     global->window = create_window(1920, 1080);
-    global->menubar = initmenubar(3, global, "File", "Edit", "Help");
+    global->menubar = initmenubar(3, global, "File", "Edit", "Help_me_please");
     return (global);
 }
 
@@ -28,6 +28,7 @@ int my_paint(int argc, char **argv)
 {
     global_t *global = initglobal();
 
+    sfRenderWindow_setFramerateLimit(global->window, 60);
     while (sfRenderWindow_isOpen(global->window)) {
         event(global);
         sfRenderWindow_clear(global->window, sfGreen);
