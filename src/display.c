@@ -13,8 +13,9 @@ int display(global_t *global)
 
     display_menubar(global->window, global->menubar);
     for (; tmp != NULL; tmp = tmp->next) {
-        check_click_btn(global, tmp);
-        check_hover_btn(global, tmp);
+        if (check_hover_btn(global, tmp))
+            ((dropdown_menu_t *)tmp->hover_param)->displayed = 10;
+        check_dropdown_hover(global, tmp->hover_param);
     }
     return 0;
 }

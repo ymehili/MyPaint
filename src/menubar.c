@@ -7,6 +7,16 @@
 
 #include "../include/my_paint.h"
 
+static void add_dd(global_t *global, sfVector2f pos, button_t *tmp)
+{
+    dropdown_menu_t *dd_menu = init_dropdown(
+        (sfVector2f){pos.x, pos.y + MENUBAR_HEIGHT},
+        4, global, "open", "save", "save in", "close");
+
+    tmp->hover_func = &display_dropdown;
+    tmp->hover_param = dd_menu;
+}
+
 static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
     int nbbuttons)
 {
@@ -14,7 +24,6 @@ static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
     sfVector2f pos = {0, 0};
     button_t *tmp = NULL;
     sfVector2f size = (sfVector2f){0, MENUBAR_HEIGHT};
-    dropdown_menu_t *dd_menu;
 
     for (int i = 0; i < nbbuttons; i++) {
         text = my_strdup(va_arg(buttons, char *));
@@ -22,17 +31,12 @@ static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
         tmp = initbutton(pos, size, text);
         sfRectangleShape_setFillColor(tmp->button,
             sfColor_fromRGB(135, 135, 135));
-        if (menubar->buttons == NULL)
-            menubar->buttons = tmp;
-        else {
+        if (menubar->buttons != NULL) {
             tmp->next = menubar->buttons;
             menubar->buttons->prev = tmp;
-            menubar->buttons = tmp;
         }
-        dd_menu = init_dropdown((sfVector2f){pos.x, pos.y + MENUBAR_HEIGHT},
-            4, global, "open", "save", "save in", "close");
-        tmp->hover_func = &display_dropdown;
-        tmp->hover_param = dd_menu;
+        menubar->buttons = tmp;
+        add_dd(global, pos, tmp);
         pos.x += my_strlen(text) * 16 + MENUBAR_BTN_MARGIN + 2;
     }
 }

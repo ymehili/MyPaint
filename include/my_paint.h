@@ -46,6 +46,7 @@ struct button_s {
 typedef struct dropdown_menu_s {
     button_t *buttons;
     sfRectangleShape *shape;
+    int displayed;
 } dropdown_menu_t;
 
 typedef struct menubar_s {
@@ -69,7 +70,8 @@ int display(global_t *global);
 int update(global_t *global);
 void display_menubar(sfRenderWindow *window, menubar_t *menubar);
 char *my_strdup(char const *src);
-dropdown_menu_t *init_dropdown(sfVector2f pos, int nbbutton, global_t *global, ...);
+dropdown_menu_t *init_dropdown(
+    sfVector2f pos, int nbbutton, global_t *global, ...);
 int display_dropdown(global_t *global, void *dropdown_menu);
 int check_click_btn(global_t *global, button_t *btn);
 int check_hover_btn(global_t *global, button_t *btn);
