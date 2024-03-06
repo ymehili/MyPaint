@@ -22,7 +22,8 @@ global_t *initglobal(void)
 void event(global_t *global)
 {
     while (sfRenderWindow_pollEvent(global->window, &global->event)) {
-        if (global->event.type == sfEvtClosed)
+        if (global->event.type == sfEvtClosed ||
+            sfKeyboard_isKeyPressed(sfKeyEscape))
             sfRenderWindow_close(global->window);
     }
 }
