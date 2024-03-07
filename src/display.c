@@ -11,6 +11,7 @@ int display(global_t *global)
 {
     button_t *tmp = global->menubar->buttons;
 
+    sfRenderWindow_drawSprite(global->window, global->layers->sprite, NULL);
     display_menubar(global->window, global->menubar);
     for (; tmp != NULL; tmp = tmp->next) {
         if (check_hover_btn(global, tmp))
@@ -18,6 +19,5 @@ int display(global_t *global)
         if (tmp->hover_param != NULL)
             check_dropdown_hover(global, tmp->hover_param);
     }
-    sfRenderWindow_drawSprite(global->window, global->layers->sprite, NULL);
     return 0;
 }

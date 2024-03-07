@@ -47,7 +47,7 @@ void event(global_t *global)
 
     while (sfRenderWindow_pollEvent(global->window, &global->event)) {
         mousePos = sfMouse_getPositionRenderWindow(global->window);
-        handleevents(global, mousePos);
+        handlevents(global, mousePos);
     }
 }
 

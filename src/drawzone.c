@@ -74,6 +74,10 @@ void draw_on_layer(global_t *global, sfVector2i mousePos)
         return;
     scale = sfSprite_getScale(global->layers->sprite);
     spritePos = sfSprite_getPosition(global->layers->sprite);
+    if (mousePos.x < spritePos.x || mousePos.y < spritePos.y ||
+        mousePos.x >= spritePos.x + 800 * scale.x ||
+        mousePos.y >= spritePos.y + 600 * scale.y)
+        return;
     mousePos.x = (mousePos.x - spritePos.x) / scale.x;
     mousePos.y = (mousePos.y - spritePos.y) / scale.y;
     image = sfTexture_copyToImage(global->layers->texture);
