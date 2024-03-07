@@ -18,5 +18,6 @@ int display(global_t *global)
         if (tmp->hover_param != NULL)
             check_dropdown_hover(global, tmp->hover_param);
     }
+    sfRenderWindow_drawSprite(global->window, global->layers->sprite, NULL);
     return 0;
 }

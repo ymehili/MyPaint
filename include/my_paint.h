@@ -54,10 +54,17 @@ typedef struct menubar_s {
     button_t *buttons;
 } menubar_t;
 
+typedef struct layer_s {
+    sfSprite *sprite;
+    sfTexture *texture;
+    struct layer_s *next;
+} layer_t;
+
 struct global_s {
     sfRenderWindow *window;
     sfEvent event;
     menubar_t *menubar;
+    layer_t *layers;
 };
 
 int my_paint(int ac, char **av);
@@ -78,5 +85,9 @@ int check_click_btn(global_t *global, button_t *btn);
 int check_hover_btn(global_t *global, button_t *btn);
 int check_dropdown_hover(global_t *global, void *dropdown_menu);
 dropdown_menu_t *add_dd_menu(global_t *global, char *text, int nbbuttons, ...);
+void zoom_in(layer_t *layers, sfVector2i mousePos, int delta);
+void zoom_out(layer_t *layers, sfVector2i mousePos, int delta);
+void draw_on_layer(global_t *global, sfVector2i mousePos);
+layer_t *initlayers(void);
 
 #endif /* !MY_PAINT_H_ */

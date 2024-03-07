@@ -16,15 +16,38 @@ global_t *initglobal(void)
     add_dd_menu(global, "File", 4, "New", "Open", "Save", "close");
     add_dd_menu(global, "Edit", 3, "copy", "past", "cut");
     add_dd_menu(global, "Help", 2, "doc", "helper");
+    global->layers = initlayers();
     return (global);
+}
+
+void handlevents(global_t *global, sfVector2i mousePos)
+{
+    switch (global->event.type) {
+        case sfEvtClosed:
+            sfRenderWindow_close(global->window);
+            break;
+        case sfEvtMouseButtonPressed:
+        case sfEvtMouseMoved:
+            draw_on_layer(global, mousePos);
+            break;
+        case sfEvtMouseWheelScrolled:
+            zoom_in(global->layers, mousePos,
+                global->event.mouseWheelScroll.delta);
+            zoom_out(global->layers, mousePos,
+                global->event.mouseWheelScroll.delta);
+            break;
+        default:
+            break;
+    }
 }
 
 void event(global_t *global)
 {
+    sfVector2i mousePos;
+
     while (sfRenderWindow_pollEvent(global->window, &global->event)) {
-        if (global->event.type == sfEvtClosed ||
-            sfKeyboard_isKeyPressed(sfKeyEscape))
-            sfRenderWindow_close(global->window);
+        mousePos = sfMouse_getPositionRenderWindow(global->window);
+        handleevents(global, mousePos);
     }
 }
 
