@@ -54,6 +54,17 @@ typedef struct menubar_s {
     button_t *buttons;
 } menubar_t;
 
+typedef struct drawing_s {
+    sfVector2f scale;
+    sfVector2f spritePos;
+    sfColor color;
+    sfImage *image;
+    sfVector2u textureSize;
+    sfVector2i diff;
+    int steps;
+    sfVector2i interpolatedPos;
+} drawing_t;
+
 typedef struct layer_s {
     sfSprite *sprite;
     sfTexture *texture;
@@ -91,5 +102,6 @@ void zoom_out(layer_t *layers, sfVector2i mousePos, int delta);
 void draw_on_layer(global_t *global, sfVector2i mousePos);
 void reset_lastpos(global_t *global);
 layer_t *initlayers(void);
+int my_abs(int nb);
 
 #endif /* !MY_PAINT_H_ */

@@ -69,42 +69,52 @@ void reset_lastpos(global_t *global)
     global->lastPos.y = -1;
 }
 
+static int findposonlayer(global_t *global, sfVector2i *mousePos, drawing_t **drw)
+{
+    if (global->layers == NULL || !sfMouse_isButtonPressed(sfMouseLeft))
+        return 1;
+    (*drw)->scale = sfSprite_getScale(global->layers->sprite);
+    (*drw)->spritePos = sfSprite_getPosition(global->layers->sprite);
+    (*drw)->textureSize = sfTexture_getSize(global->layers->texture);
+    if (mousePos->x < (*drw)->spritePos.x || mousePos->y < (*drw)->spritePos.y ||
+        mousePos->x >= (*drw)->spritePos.x + (*drw)->textureSize.x
+        * (*drw)->scale.x || mousePos->y >= (*drw)->spritePos.y +
+        (*drw)->textureSize.y * (*drw)->scale.y)
+        return 1;
+    mousePos->x = (mousePos->x - (*drw)->spritePos.x) / (*drw)->scale.x;
+    mousePos->y = (mousePos->y - (*drw)->spritePos.y) / (*drw)->scale.y;
+    (*drw)->color = sfColor_fromRGB(255, 255, 255);
+    (*drw)->image = sfTexture_copyToImage(global->layers->texture);
+    return 0;
+}
+
+static void drawline(global_t *global, sfVector2i mousePos, drawing_t *drw)
+{
+    drw->diff.x = mousePos.x - global->lastPos.x;
+    drw->diff.y = mousePos.y - global->lastPos.y;
+    drw->steps = my_abs(drw->diff.x) > my_abs(drw->diff.y) ?
+        my_abs(drw->diff.x) : my_abs(drw->diff.y);
+    for (int i = 0; i <= drw->steps; i++) {
+        drw->interpolatedPos.x = global->lastPos.x + drw->diff.x * i
+            / drw->steps;
+        drw->interpolatedPos.y = global->lastPos.y + drw->diff.y * i
+            / drw->steps;
+        sfImage_setPixel(drw->image, drw->interpolatedPos.x,
+            drw->interpolatedPos.y, drw->color);
+    }
+}
+
 void draw_on_layer(global_t *global, sfVector2i mousePos)
 {
-    sfVector2f scale;
-    sfVector2f spritePos;
-    sfColor color;
-    sfImage *image;
-    sfVector2u textureSize;
+    drawing_t *drw = malloc(sizeof(drawing_t));
 
-    if (global->layers == NULL || !sfMouse_isButtonPressed(sfMouseLeft))
+    if (findposonlayer(global, &mousePos, &drw) == 1)
         return;
-    scale = sfSprite_getScale(global->layers->sprite);
-    spritePos = sfSprite_getPosition(global->layers->sprite);
-    textureSize = sfTexture_getSize(global->layers->texture);
-    if (mousePos.x < spritePos.x || mousePos.y < spritePos.y ||
-        mousePos.x >= spritePos.x + textureSize.x * scale.x ||
-        mousePos.y >= spritePos.y + textureSize.y * scale.y)
-        return;
-    mousePos.x = (mousePos.x - spritePos.x) / scale.x;
-    mousePos.y = (mousePos.y - spritePos.y) / scale.y;
-    image = sfTexture_copyToImage(global->layers->texture);
-    color = sfColor_fromRGB(255, 255, 255);
     if (global->lastPos.x != -1 && global->lastPos.y != -1) {
-        sfVector2i diff = {mousePos.x - global->lastPos.x,
-            mousePos.y - global->lastPos.y};
-        int steps = abs(diff.x) > abs(diff.y) ? abs(diff.x) : abs(diff.y);
-        for (int i = 0; i <= steps; i++) {
-            sfVector2i interpolatedPos = {
-                global->lastPos.x + diff.x * i / steps,
-                global->lastPos.y + diff.y * i / steps
-            };
-            sfImage_setPixel(image, interpolatedPos.x, interpolatedPos.y, color);
-        }
-    } else {
-        sfImage_setPixel(image, mousePos.x, mousePos.y, color);
-    }
-    sfTexture_updateFromImage(global->layers->texture, image, 0, 0);
-    sfImage_destroy(image);
+        drawline(global, mousePos, drw);
+    } else
+        sfImage_setPixel(drw->image, mousePos.x, mousePos.y, drw->color);
+    sfTexture_updateFromImage(global->layers->texture, drw->image, 0, 0);
+    sfImage_destroy(drw->image);
     global->lastPos = mousePos;
 }
