@@ -69,15 +69,16 @@ void reset_lastpos(global_t *global)
     global->lastPos.y = -1;
 }
 
-static int findposonlayer(global_t *global, sfVector2i *mousePos, drawing_t **drw)
+static int findposonlayer(global_t *global, sfVector2i *mousePos,
+    drawing_t **drw)
 {
     if (global->layers == NULL || !sfMouse_isButtonPressed(sfMouseLeft))
         return 1;
     (*drw)->scale = sfSprite_getScale(global->layers->sprite);
     (*drw)->spritePos = sfSprite_getPosition(global->layers->sprite);
     (*drw)->textureSize = sfTexture_getSize(global->layers->texture);
-    if (mousePos->x < (*drw)->spritePos.x || mousePos->y < (*drw)->spritePos.y ||
-        mousePos->x >= (*drw)->spritePos.x + (*drw)->textureSize.x
+    if (mousePos->x < (*drw)->spritePos.x || mousePos->y < (*drw)->spritePos.y
+        || mousePos->x >= (*drw)->spritePos.x + (*drw)->textureSize.x
         * (*drw)->scale.x || mousePos->y >= (*drw)->spritePos.y +
         (*drw)->textureSize.y * (*drw)->scale.y)
         return 1;
