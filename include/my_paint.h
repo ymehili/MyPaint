@@ -61,6 +61,7 @@ typedef struct layer_s {
 } layer_t;
 
 struct global_s {
+    sfVector2i lastPos;
     sfRenderWindow *window;
     sfEvent event;
     menubar_t *menubar;
@@ -88,6 +89,7 @@ dropdown_menu_t *add_dd_menu(global_t *global, char *text, int nbbuttons, ...);
 void zoom_in(layer_t *layers, sfVector2i mousePos, int delta);
 void zoom_out(layer_t *layers, sfVector2i mousePos, int delta);
 void draw_on_layer(global_t *global, sfVector2i mousePos);
+void reset_lastpos(global_t *global);
 layer_t *initlayers(void);
 
 #endif /* !MY_PAINT_H_ */

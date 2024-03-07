@@ -11,6 +11,7 @@ global_t *initglobal(void)
 {
     global_t *global = malloc(sizeof(global_t));
 
+    global->lastPos = (sfVector2i){-1, -1};
     global->window = create_window(1920, 1080);
     global->menubar = initmenubar(3, global, "File", "Edit", "Help");
     add_dd_menu(global, "File", 4, "New", "Open", "Save", "close");
@@ -29,6 +30,9 @@ void handlevents(global_t *global, sfVector2i mousePos)
         case sfEvtMouseButtonPressed:
         case sfEvtMouseMoved:
             draw_on_layer(global, mousePos);
+            break;
+        case sfEvtMouseButtonReleased:
+            reset_lastpos(global);
             break;
         case sfEvtMouseWheelScrolled:
             zoom_in(global->layers, mousePos,

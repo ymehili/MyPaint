@@ -63,26 +63,48 @@ void zoom_out(layer_t *layers, sfVector2i mousePos, int delta)
     }
 }
 
+void reset_lastpos(global_t *global)
+{
+    global->lastPos.x = -1;
+    global->lastPos.y = -1;
+}
+
 void draw_on_layer(global_t *global, sfVector2i mousePos)
 {
     sfVector2f scale;
     sfVector2f spritePos;
     sfColor color;
     sfImage *image;
+    sfVector2u textureSize;
 
     if (global->layers == NULL || !sfMouse_isButtonPressed(sfMouseLeft))
         return;
     scale = sfSprite_getScale(global->layers->sprite);
     spritePos = sfSprite_getPosition(global->layers->sprite);
+    textureSize = sfTexture_getSize(global->layers->texture);
     if (mousePos.x < spritePos.x || mousePos.y < spritePos.y ||
-        mousePos.x >= spritePos.x + 800 * scale.x ||
-        mousePos.y >= spritePos.y + 600 * scale.y)
+        mousePos.x >= spritePos.x + textureSize.x * scale.x ||
+        mousePos.y >= spritePos.y + textureSize.y * scale.y)
         return;
     mousePos.x = (mousePos.x - spritePos.x) / scale.x;
     mousePos.y = (mousePos.y - spritePos.y) / scale.y;
     image = sfTexture_copyToImage(global->layers->texture);
     color = sfColor_fromRGB(255, 255, 255);
-    sfImage_setPixel(image, mousePos.x, mousePos.y, color);
+    if (global->lastPos.x != -1 && global->lastPos.y != -1) {
+        sfVector2i diff = {mousePos.x - global->lastPos.x,
+            mousePos.y - global->lastPos.y};
+        int steps = abs(diff.x) > abs(diff.y) ? abs(diff.x) : abs(diff.y);
+        for (int i = 0; i <= steps; i++) {
+            sfVector2i interpolatedPos = {
+                global->lastPos.x + diff.x * i / steps,
+                global->lastPos.y + diff.y * i / steps
+            };
+            sfImage_setPixel(image, interpolatedPos.x, interpolatedPos.y, color);
+        }
+    } else {
+        sfImage_setPixel(image, mousePos.x, mousePos.y, color);
+    }
     sfTexture_updateFromImage(global->layers->texture, image, 0, 0);
     sfImage_destroy(image);
+    global->lastPos = mousePos;
 }
