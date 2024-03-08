@@ -68,8 +68,9 @@ int check_dropdown_hover(global_t *global, void *dropdown_menu)
 dropdown_menu_t *init_dropdown(sfVector2f pos,
     int nbbutton, global_t *global, va_list ls)
 {
-    dropdown_menu_t *menu = malloc(sizeof(dropdown_menu_t));
+    dropdown_menu_t *menu = my_malloc(sizeof(dropdown_menu_t));
     sfVector2f size = (sfVector2f){150, MENUBAR_HEIGHT};
+
 
     size.y = init_dropdown_btns(ls, nbbutton, pos, menu);
     menu->shape = sfRectangleShape_create();
