@@ -95,6 +95,7 @@ static void drawline(global_t *global, sfVector2i mousePos, drawing_t *drw)
     drw->diff.y = mousePos.y - global->lastPos.y;
     drw->steps = my_abs(drw->diff.x) > my_abs(drw->diff.y) ?
         my_abs(drw->diff.x) : my_abs(drw->diff.y);
+    drw->steps = drw->steps == 0 ? 1 : drw->steps;
     for (int i = 0; i <= drw->steps; i++) {
         drw->interpolatedPos.x = global->lastPos.x + drw->diff.x * i
             / drw->steps;
