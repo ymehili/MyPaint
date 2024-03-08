@@ -77,10 +77,14 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
     (*drw)->scale = sfSprite_getScale(global->layers->sprite);
     (*drw)->spritePos = sfSprite_getPosition(global->layers->sprite);
     (*drw)->textureSize = sfTexture_getSize(global->layers->texture);
-    if (mousePos->x < (*drw)->spritePos.x || mousePos->y < (*drw)->spritePos.y
+    if ((mousePos->x < (*drw)->spritePos.x || mousePos->y < (*drw)->spritePos.y
         || mousePos->x >= (*drw)->spritePos.x + (*drw)->textureSize.x
         * (*drw)->scale.x || mousePos->y >= (*drw)->spritePos.y +
-        (*drw)->textureSize.y * (*drw)->scale.y)
+        (*drw)->textureSize.y * (*drw)->scale.y) && (global->lastPos.x <
+        (*drw)->spritePos.x || global->lastPos.y < (*drw)->spritePos.y
+        || global->lastPos.x >= (*drw)->spritePos.x + (*drw)->textureSize.x
+        * (*drw)->scale.x || global->lastPos.y >= (*drw)->spritePos.y +
+        (*drw)->textureSize.y * (*drw)->scale.y))
         return 1;
     mousePos->x = (mousePos->x - (*drw)->spritePos.x) / (*drw)->scale.x;
     mousePos->y = (mousePos->y - (*drw)->spritePos.y) / (*drw)->scale.y;
@@ -101,8 +105,12 @@ static void drawline(global_t *global, sfVector2i mousePos, drawing_t *drw)
             / drw->steps;
         drw->interpolatedPos.y = global->lastPos.y + drw->diff.y * i
             / drw->steps;
-        sfImage_setPixel(drw->image, drw->interpolatedPos.x,
-            drw->interpolatedPos.y, drw->color);
+        if (drw->interpolatedPos.x > drw->spritePos.x && drw->interpolatedPos.y
+            > drw->spritePos.y && drw->interpolatedPos.x <= drw->spritePos.x
+            + drw->textureSize.x * drw->scale.x && drw->interpolatedPos.y <=
+            drw->spritePos.y + drw->textureSize.y * drw->scale.y)
+            sfImage_setPixel(drw->image, drw->interpolatedPos.x,
+                drw->interpolatedPos.y, drw->color);
     }
 }
 
@@ -112,9 +120,9 @@ void draw_on_layer(global_t *global, sfVector2i mousePos)
 
     if (findposonlayer(global, &mousePos, &drw) == 1)
         return;
-    if (global->lastPos.x != -1 && global->lastPos.y != -1) {
+    if (global->lastPos.x != -1 && global->lastPos.y != -1)
         drawline(global, mousePos, drw);
-    } else
+    else
         sfImage_setPixel(drw->image, mousePos.x, mousePos.y, drw->color);
     sfTexture_updateFromImage(global->layers->texture, drw->image, 0, 0);
     sfImage_destroy(drw->image);
