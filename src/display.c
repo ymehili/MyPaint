@@ -13,7 +13,6 @@ int display(global_t *global)
 
     sfRenderWindow_drawSprite(global->window, global->layers->sprite, NULL);
     display_menubar(global->window, global->menubar);
-    sfRenderWindow_drawRectangleShape(global->window, global->layerbar, NULL);
     for (; tmp != NULL; tmp = tmp->next) {
         if (check_hover_btn(global, tmp))
             ((dropdown_menu_t *)tmp->hover_param)->displayed = 10;

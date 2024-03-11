@@ -16,7 +16,7 @@ global_t *initglobal(void)
     global->windowSize = (sfVector2i){WINDOW_WIDTH, WINDOW_HEIGHT};
     global->pencil = 1;
     global->color = sfBlack;
-    global->menubar = initmenubar(4, global, "File", "Edit", "Help");
+    global->menubar = initmenubar(3, global, "File", "Edit", "Help");
     add_dd_menu(global, "File", 4, "New file", "Open file",
         "Save file", "close");
     add_dd_menu(global, "Edit", 2, "Pencil", "Eraser");
@@ -24,8 +24,6 @@ global_t *initglobal(void)
     add_click_func(global->menubar, "File", "close", &close_btn);
     add_click_func(global->menubar, "Edit", "Pencil", &pick_pencil);
     add_click_func(global->menubar, "Edit", "Eraser", &pick_eraser);
-    global->layerbar = create_rectangle((sfVector2f){1720, 0},
-        (sfVector2f){200, WINDOW_HEIGHT});
     global->layers = initlayers();
     return (global);
 }

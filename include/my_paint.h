@@ -94,7 +94,6 @@ struct global_s {
     int pencil;
     sfColor color;
     sfVector2i windowSize;
-    sfRectangleShape *layerbar;
     layer_t *layers;
 };
 
