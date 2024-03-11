@@ -27,13 +27,12 @@ button_t *initbutton(sfVector2f pos, sfVector2f size, char *text)
 int check_click_btn(global_t *global, button_t *btn)
 {
     sfVector2i mouse = sfMouse_getPositionRenderWindow(global->window);
-    sfVector2f btn_pos = sfRectangleShape_getPosition(btn->button);
-    sfVector2f btn_size = sfRectangleShape_getSize(btn->button);
+    sfFloatRect btn_pos = sfRectangleShape_getGlobalBounds(btn->button);
 
     if (btn->click_func == NULL)
         return 0;
-    if (mouse.x > btn_pos.x && mouse.x < btn_pos.x + btn_size.x &&
-        mouse.y > btn_pos.y && mouse.y < btn_pos.y + btn_size.y &&
+    if (mouse.x > btn_pos.left && mouse.x < btn_pos.left + btn_pos.width &&
+        mouse.y > btn_pos.top && mouse.y < btn_pos.top + btn_pos.height &&
         sfMouse_isButtonPressed(sfMouseLeft) == sfTrue) {
         btn->click_func(global, btn->click_param);
         return 1;

@@ -74,7 +74,7 @@ void check_dd_btn(global_t *global, button_t *btn)
 
     if (btn == NULL)
         return;
-    for (; tmp->next != NULL; tmp = tmp->next) {
+    for (; tmp != NULL; tmp = tmp->next) {
         check_click_btn(global, tmp);
         check_hover_btn(global, tmp);
     }
