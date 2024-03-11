@@ -83,7 +83,10 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
         return 1;
     mousePos->x = (mousePos->x - (*drw)->spritePos.x) / (*drw)->scale.x;
     mousePos->y = (mousePos->y - (*drw)->spritePos.y) / (*drw)->scale.y;
-    (*drw)->color = sfBlack;
+    if (global->eraser == 1)
+        (*drw)->color = sfTransparent;
+    else
+        (*drw)->color = sfBlack;
     (*drw)->image = sfTexture_copyToImage(global->layers->texture);
     return 0;
 }
@@ -118,12 +121,4 @@ void draw_on_layer(global_t *global, sfVector2i mousePos)
     sfTexture_updateFromImage(global->layers->texture, drw->image, 0, 0);
     sfImage_destroy(drw->image);
     global->lastPos = mousePos;
-}
-
-void draw_or_erase_on_layer(global_t *global, sfVector2i mousePos)
-{
-    if (global->pencil == 1)
-        draw_on_layer(global, mousePos);
-    else
-        erase_on_layer(global, mousePos);
 }

@@ -34,7 +34,7 @@ void handlevents(global_t *global, sfVector2i mousePos)
             break;
         case sfEvtMouseButtonPressed:
         case sfEvtMouseMoved:
-            draw_or_erase_on_layer(global, mousePos);
+            draw_on_layer(global, mousePos);
             break;
         case sfEvtMouseButtonReleased:
             reset_lastpos(global);
