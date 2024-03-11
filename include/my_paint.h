@@ -70,12 +70,13 @@ typedef struct drawing_s {
 
 typedef struct layerbutton_s {
     sfRectangleShape *shape;
-    // add the image of the layer
+    sfTexture *imageTexture;
     sfText *text;
     int selected;
 } layerbutton_t;
 
 typedef struct layer_s {
+    struct layer_s *prev;
     sfSprite *sprite;
     sfTexture *texture;
     int displayed;
@@ -129,5 +130,8 @@ void check_dd_btn(global_t *global, button_t *btn);
 int pick_pencil(global_t *global, void *param);
 int pick_eraser(global_t *global, void *param);
 sfRectangleShape *create_rectangle(sfVector2f position, sfVector2f size);
+sfText *create_text(char *str, sfVector2f position, char *fontfile, int size);
+int addlayer(global_t *global, void *param);
+int removelayer(global_t *global, void *param);
 
 #endif /* !MY_PAINT_H_ */

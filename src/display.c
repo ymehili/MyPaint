@@ -7,11 +7,29 @@
 
 #include "../include/my_paint.h"
 
+void display_layer_button(sfRenderWindow *window, layer_t *layers)
+{
+    int ypos = 0;
+
+    for (layer_t *tmp = layers; tmp != NULL; tmp = tmp->next) {
+        if (tmp->displayed) {
+            sfRenderWindow_drawSprite(window, tmp->sprite, NULL);
+            sfText_setPosition(tmp->button->text, (sfVector2f){50, ypos + 50});
+            sfRectangleShape_setPosition(tmp->button->shape,
+                (sfVector2f){0, ypos});
+            sfRenderWindow_drawRectangleShape(window, tmp->button->shape,
+                NULL);
+            sfRenderWindow_drawText(window, tmp->button->text, NULL);
+            ypos += 100;
+        }
+    }
+}
+
 int display(global_t *global)
 {
     button_t *tmp = global->menubar->buttons;
 
-    sfRenderWindow_drawSprite(global->window, global->layers->sprite, NULL);
+    display_layer_button(global->window, global->layers);
     display_menubar(global->window, global->menubar);
     for (; tmp != NULL; tmp = tmp->next) {
         if (check_hover_btn(global, tmp))

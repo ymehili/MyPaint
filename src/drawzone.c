@@ -7,27 +7,6 @@
 
 #include "../include/my_paint.h"
 
-layer_t *initlayers(void)
-{
-    layer_t *layers = malloc(sizeof(layer_t));
-    sfVector2f position;
-    sfImage* image;
-    sfColor color;
-
-    layers->texture = sfTexture_create(800, 600);
-    color = sfWhite;
-    image = sfImage_createFromColor(800, 600, color);
-    sfTexture_updateFromImage(layers->texture, image, 0, 0);
-    sfImage_destroy(image);
-    layers->sprite = sfSprite_create();
-    sfSprite_setTexture(layers->sprite, layers->texture, sfTrue);
-    position.x = 200;
-    position.y = 200;
-    sfSprite_setPosition(layers->sprite, position);
-    layers->next = NULL;
-    return (layers);
-}
-
 void zoom_in(layer_t *layers, sfVector2i mousePos, int delta)
 {
     sfVector2f scale;

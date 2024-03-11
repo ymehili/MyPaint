@@ -41,6 +41,7 @@ sfText *create_text(char *str, sfVector2f position, char *fontfile, int size)
     sfText_setFont(text, font);
     sfText_setCharacterSize(text, size);
     sfText_setPosition(text, position);
+    sfText_setFillColor(text, sfBlack);
     return (text);
 }
 
