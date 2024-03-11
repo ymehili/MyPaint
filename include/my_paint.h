@@ -94,6 +94,7 @@ struct global_s {
     int pencil;
     sfColor color;
     sfVector2i windowSize;
+    sfRectangleShape *layerbar;
     layer_t *layers;
 };
 
@@ -128,5 +129,6 @@ int close_btn(global_t *global, void *param);
 void check_dd_btn(global_t *global, button_t *btn);
 int pick_pencil(global_t *global, void *param);
 int pick_eraser(global_t *global, void *param);
+sfRectangleShape *create_rectangle(sfVector2f position, sfVector2f size);
 
 #endif /* !MY_PAINT_H_ */

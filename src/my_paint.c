@@ -24,6 +24,8 @@ global_t *initglobal(void)
     add_click_func(global->menubar, "File", "close", &close_btn);
     add_click_func(global->menubar, "Edit", "Pencil", &pick_pencil);
     add_click_func(global->menubar, "Edit", "Eraser", &pick_eraser);
+    global->layerbar = create_rectangle((sfVector2f){1720, 0},
+        (sfVector2f){200, WINDOW_HEIGHT});
     global->layers = initlayers();
     return (global);
 }
