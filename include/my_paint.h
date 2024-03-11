@@ -70,8 +70,23 @@ typedef struct drawing_s {
 typedef struct layer_s {
     sfSprite *sprite;
     sfTexture *texture;
+    int displayed;
+    int selected;
     struct layer_s *next;
 } layer_t;
+
+typedef struct layerbutton_s {
+    sfRectangleShape *shape;
+    // add the image of the layer
+    sfText *text;
+    int selected;
+    struct layerbutton_s *next;
+} layerbutton_t;
+
+typedef struct layermenu_s {
+    sfRectangleShape *shape;
+    layerbutton_t *layerselect;
+} layermenu_t;
 
 struct global_s {
     sfVector2i lastPos;
