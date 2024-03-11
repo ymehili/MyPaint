@@ -12,7 +12,8 @@ global_t *initglobal(void)
     global_t *global = malloc(sizeof(global_t));
 
     global->lastPos = (sfVector2i){-1, -1};
-    global->window = create_window(1920, 1080);
+    global->window = create_window(WINDOW_WIDTH, WINDOW_HEIGHT);
+    global->windowSize = (sfVector2i){WINDOW_WIDTH, WINDOW_HEIGHT};
     global->pencil = 1;
     global->color = sfBlack;
     global->menubar = initmenubar(3, global, "File", "Edit", "Help");
@@ -54,12 +55,18 @@ void handlevents(global_t *global, sfVector2i mousePos)
 void event(global_t *global)
 {
     sfVector2i mousePos;
+    sfVector2u size = sfRenderWindow_getSize(global->window);
 
     while (sfRenderWindow_pollEvent(global->window, &global->event)) {
         if (sfKeyboard_isKeyPressed(sfKeyEscape))
             sfRenderWindow_close(global->window);
         mousePos = sfMouse_getPositionRenderWindow(global->window);
         handlevents(global, mousePos);
+    }
+    if (size.x != global->windowSize.x || size.y != global->windowSize.y) {
+        global->windowSize = (sfVector2i){size.x, size.y};
+        sfRenderWindow_setView(global->window,
+            sfView_createFromRect((sfFloatRect){0, 0, size.x, size.y}));
     }
 }
 

@@ -27,6 +27,8 @@
     #define FONT_PATH "assets/font.ttf"
     #define MENUBAR_HEIGHT 30
     #define MENUBAR_BTN_MARGIN 10
+    #define WINDOW_WIDTH 1920
+    #define WINDOW_HEIGHT 1080
 
 typedef struct button_s button_t;
 typedef struct global_s global_t;
@@ -80,6 +82,7 @@ struct global_s {
     int eraser;
     int pencil;
     sfColor color;
+    sfVector2i windowSize;
 };
 
 int my_paint(int ac, char **av);
