@@ -50,6 +50,8 @@ void event(global_t *global)
     sfVector2i mousePos;
 
     while (sfRenderWindow_pollEvent(global->window, &global->event)) {
+        if (sfKeyboard_isKeyPressed(sfKeyEscape))
+            sfRenderWindow_close(global->window);
         mousePos = sfMouse_getPositionRenderWindow(global->window);
         handlevents(global, mousePos);
     }
