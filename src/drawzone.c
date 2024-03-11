@@ -119,3 +119,11 @@ void draw_on_layer(global_t *global, sfVector2i mousePos)
     sfImage_destroy(drw->image);
     global->lastPos = mousePos;
 }
+
+void draw_or_erase_on_layer(global_t *global, sfVector2i mousePos)
+{
+    if (global->pencil == 1)
+        draw_on_layer(global, mousePos);
+    else
+        erase_on_layer(global, mousePos);
+}

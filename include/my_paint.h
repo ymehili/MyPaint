@@ -112,5 +112,7 @@ int close_btn(global_t *global, void *param);
 void check_dd_btn(global_t *global, button_t *btn);
 int pick_pencil(global_t *global, void *param);
 int pick_eraser(global_t *global, void *param);
+void erase_on_layer(global_t *global, sfVector2i mousePos);
+void draw_or_erase_on_layer(global_t *global, sfVector2i mousePos);
 
 #endif /* !MY_PAINT_H_ */

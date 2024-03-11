@@ -24,5 +24,6 @@ int pick_pencil(global_t *global, void *param)
 {
     global->pencil = 1;
     global->eraser = 0;
+    printf("pencil\n");
     return 0;
 }

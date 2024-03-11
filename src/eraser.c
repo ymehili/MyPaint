@@ -7,7 +7,7 @@
 
 #include "../include/my_paint.h"
 
-static int findposonlayer(global_t *global, sfVector2i *mousePos,
+static int finderaseonlayer(global_t *global, sfVector2i *mousePos,
     drawing_t **drw)
 {
     if (global->layers == NULL || !sfMouse_isButtonPressed(sfMouseLeft))
@@ -48,10 +48,10 @@ void erase_on_layer(global_t *global, sfVector2i mousePos)
 {
     drawing_t *drw = malloc(sizeof(drawing_t));
 
-    if (findposonlayer(global, &mousePos, &drw) == 1)
+    if (finderaseonlayer(global, &mousePos, &drw) == 1)
         return;
     if (global->lastPos.x != -1 && global->lastPos.y != -1) {
-        drawline(global, mousePos, drw);
+        eraseline(global, mousePos, drw);
     } else
         sfImage_setPixel(drw->image, mousePos.x, mousePos.y, drw->color);
     sfTexture_updateFromImage(global->layers->texture, drw->image, 0, 0);

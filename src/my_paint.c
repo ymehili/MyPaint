@@ -20,8 +20,8 @@ global_t *initglobal(void)
     add_dd_menu(global, "Edit", 2, "Pencil", "Eraser");
     add_dd_menu(global, "Help", 2, "About", "Help");
     add_click_func(global->menubar, "File", "close", &close_btn);
-    add_click_func(global->menubar, "File", "Pencil", &pick_pencil);
-    add_click_func(global->menubar, "File", "Eraser", &pick_eraser);
+    add_click_func(global->menubar, "Edit", "Pencil", &pick_pencil);
+    add_click_func(global->menubar, "Edit", "Eraser", &pick_eraser);
     global->layers = initlayers();
     return (global);
 }
@@ -34,7 +34,7 @@ void handlevents(global_t *global, sfVector2i mousePos)
             break;
         case sfEvtMouseButtonPressed:
         case sfEvtMouseMoved:
-            draw_on_layer(global, mousePos);
+            draw_or_erase_on_layer(global, mousePos);
             break;
         case sfEvtMouseButtonReleased:
             reset_lastpos(global);
