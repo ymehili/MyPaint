@@ -71,7 +71,6 @@ dropdown_menu_t *init_dropdown(sfVector2f pos,
     dropdown_menu_t *menu = my_malloc(sizeof(dropdown_menu_t));
     sfVector2f size = (sfVector2f){150, MENUBAR_HEIGHT};
 
-
     size.y = init_dropdown_btns(ls, nbbutton, pos, menu);
     menu->shape = sfRectangleShape_create();
     sfRectangleShape_setFillColor(menu->shape, sfColor_fromRGB(200, 200, 200));

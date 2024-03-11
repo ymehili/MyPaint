@@ -83,6 +83,7 @@ int my_paint(int ac, char **av);
 sfRenderWindow *create_window(unsigned int width, unsigned int height);
 void *my_malloc(unsigned int size);
 int my_strlen(char const *str);
+void my_putstr(char const *str);
 int my_strcmp(char const *s1, char const *s2);
 button_t *initbutton(sfVector2f pos, sfVector2f size, char *text);
 menubar_t *initmenubar(int nbbuttons, global_t *global, ...);
