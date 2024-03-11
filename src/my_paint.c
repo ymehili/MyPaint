@@ -14,6 +14,7 @@ global_t *initglobal(void)
     global->lastPos = (sfVector2i){-1, -1};
     global->window = create_window(1920, 1080);
     global->pencil = 1;
+    global->color = sfBlack;
     global->menubar = initmenubar(3, global, "File", "Edit", "Help");
     add_dd_menu(global, "File", 4, "New file", "Open file",
         "Save file", "close");

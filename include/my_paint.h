@@ -79,6 +79,7 @@ struct global_s {
     layer_t *layers;
     int eraser;
     int pencil;
+    sfColor color;
 };
 
 int my_paint(int ac, char **av);

@@ -86,7 +86,7 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
     if (global->eraser == 1)
         (*drw)->color = sfTransparent;
     else
-        (*drw)->color = sfBlack;
+        (*drw)->color = global->color;
     (*drw)->image = sfTexture_copyToImage(global->layers->texture);
     return 0;
 }
