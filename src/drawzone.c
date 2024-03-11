@@ -15,9 +15,8 @@ layer_t *initlayers(void)
     sfColor color;
 
     layers->texture = sfTexture_create(800, 600);
-    image = sfImage_create(800, 600);
-    color = sfColor_fromRGB(0, 0, 0);
-    sfImage_createFromColor(800, 600, color);
+    color = sfWhite;
+    image = sfImage_createFromColor(800, 600, color);
     sfTexture_updateFromImage(layers->texture, image, 0, 0);
     sfImage_destroy(image);
     layers->sprite = sfSprite_create();
@@ -84,7 +83,7 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
         return 1;
     mousePos->x = (mousePos->x - (*drw)->spritePos.x) / (*drw)->scale.x;
     mousePos->y = (mousePos->y - (*drw)->spritePos.y) / (*drw)->scale.y;
-    (*drw)->color = sfColor_fromRGB(255, 255, 255);
+    (*drw)->color = sfBlack;
     (*drw)->image = sfTexture_copyToImage(global->layers->texture);
     return 0;
 }

@@ -14,9 +14,9 @@ global_t *initglobal(void)
     global->lastPos = (sfVector2i){-1, -1};
     global->window = create_window(1920, 1080);
     global->menubar = initmenubar(3, global, "File", "Edit", "Help");
-    add_dd_menu(global, "File", 4, "New", "Open", "Save", "close");
-    add_dd_menu(global, "Edit", 3, "copy", "past", "cut");
-    add_dd_menu(global, "Help", 2, "doc", "helper");
+    add_dd_menu(global, "File", 4, "New file", "Open file", "Save file", "close");
+    add_dd_menu(global, "Edit", 2, "Pencil", "Eraser");
+    add_dd_menu(global, "Help", 2, "About", "Help");
     global->layers = initlayers();
     return (global);
 }
@@ -64,7 +64,7 @@ int my_paint(int argc, char **argv)
     sfRenderWindow_setFramerateLimit(global->window, 60);
     while (sfRenderWindow_isOpen(global->window)) {
         event(global);
-        sfRenderWindow_clear(global->window, sfGreen);
+        sfRenderWindow_clear(global->window, sfColor_fromRGB(190, 190, 190));
         if (update(global) != 0)
             break;
         if (display(global) != 0)

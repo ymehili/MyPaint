@@ -17,7 +17,7 @@ dropdown_menu_t *add_dd_menu(global_t *global, char *text, int nbbuttons, ...)
     for (; tmp != NULL; tmp = tmp->next) {
         if (my_strcmp(tmp->string, text) == 0) {
             pos = sfRectangleShape_getPosition(tmp->button);
-            pos.y += MENUBAR_HEIGHT;
+            pos.y += MENUBAR_HEIGHT - 1;
             tmp->hover_param = init_dropdown(pos, nbbuttons, global, buttons);
             return tmp->hover_param;
         }
