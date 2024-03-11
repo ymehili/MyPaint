@@ -67,37 +67,34 @@ typedef struct drawing_s {
     sfVector2i interpolatedPos;
 } drawing_t;
 
-typedef struct layer_s {
-    sfSprite *sprite;
-    sfTexture *texture;
-    int displayed;
-    int selected;
-    struct layer_s *next;
-} layer_t;
 
 typedef struct layerbutton_s {
     sfRectangleShape *shape;
     // add the image of the layer
     sfText *text;
     int selected;
-    struct layerbutton_s *next;
 } layerbutton_t;
 
-typedef struct layermenu_s {
-    sfRectangleShape *shape;
-    layerbutton_t *layerselect;
-} layermenu_t;
+typedef struct layer_s {
+    sfSprite *sprite;
+    sfTexture *texture;
+    int displayed;
+    int selected;
+    char *name;
+    layerbutton_t *button;
+    struct layer_s *next;
+} layer_t;
 
 struct global_s {
     sfVector2i lastPos;
     sfRenderWindow *window;
     sfEvent event;
     menubar_t *menubar;
-    layer_t *layers;
     int eraser;
     int pencil;
     sfColor color;
     sfVector2i windowSize;
+    layer_t *layers;
 };
 
 int my_paint(int ac, char **av);

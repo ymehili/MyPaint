@@ -25,7 +25,6 @@ global_t *initglobal(void)
     add_click_func(global->menubar, "Edit", "Pencil", &pick_pencil);
     add_click_func(global->menubar, "Edit", "Eraser", &pick_eraser);
     global->layers = initlayers();
-    
     return (global);
 }
 
