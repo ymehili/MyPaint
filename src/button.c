@@ -30,7 +30,7 @@ int check_click_btn(global_t *global, button_t *btn)
     sfVector2f btn_pos = sfRectangleShape_getPosition(btn->button);
     sfVector2f btn_size = sfRectangleShape_getSize(btn->button);
 
-    if (btn->click_func == NULL || btn->click_param == NULL)
+    if (btn->click_func == NULL)
         return 0;
     if (mouse.x > btn_pos.x && mouse.x < btn_pos.x + btn_size.x &&
         mouse.y > btn_pos.y && mouse.y < btn_pos.y + btn_size.y &&
@@ -47,7 +47,7 @@ int check_hover_btn(global_t *global, button_t *btn)
     sfVector2f btn_pos = sfRectangleShape_getPosition(btn->button);
     sfVector2f btn_size = sfRectangleShape_getSize(btn->button);
 
-    if (btn->hover_func == NULL || btn->hover_param == NULL)
+    if (btn->hover_func == NULL)
         return 0;
     if (mouse.x > btn_pos.x && mouse.x < btn_pos.x + btn_size.x &&
         mouse.y > btn_pos.y && mouse.y < btn_pos.y + btn_size.y) {

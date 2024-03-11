@@ -18,6 +18,9 @@ int display(global_t *global)
             ((dropdown_menu_t *)tmp->hover_param)->displayed = 10;
         if (tmp->hover_param != NULL)
             check_dropdown_hover(global, tmp->hover_param);
+        if (((dropdown_menu_t *)tmp->hover_param)->displayed > 0)
+            check_dd_btn(global,
+                ((dropdown_menu_t *)tmp->hover_param)->buttons);
     }
     return 0;
 }

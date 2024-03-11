@@ -25,6 +25,27 @@ dropdown_menu_t *add_dd_menu(global_t *global, char *text, int nbbuttons, ...)
     return 0;
 }
 
+int add_click_func(menubar_t *menubar, char *menu_btn, char *dd_btn,
+    int (*func)(global_t *global, void *param))
+{
+    button_t *tmp = menubar->buttons;
+    button_t *tmp2;
+
+    for (; tmp != NULL; tmp = tmp->next) {
+        if (my_strcmp(tmp->string, menu_btn) == 0) {
+            tmp2 = ((dropdown_menu_t *)tmp->hover_param)->buttons;
+            break;
+        }
+    }
+    for (; tmp2 != NULL; tmp2 = tmp2->next) {
+        if (my_strcmp(tmp2->string, dd_btn) == 0) {
+            tmp2->click_func = func;
+            return 0;
+        }
+    }
+    return 1;
+}
+
 static void listbuttons(global_t *global, menubar_t *menubar, va_list buttons,
     int nbbuttons)
 {

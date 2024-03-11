@@ -34,9 +34,12 @@ int init_dropdown_btns(va_list ls, int nbbutton,
 int display_dropdown(global_t *global, void *dropdown_menu)
 {
     dropdown_menu_t *dropdown = (dropdown_menu_t *)dropdown_menu;
-    button_t *btn = dropdown->buttons;
+    button_t *btn;
     sfRenderWindow *window = global->window;
 
+    if (dropdown_menu == NULL)
+        return 1;
+    btn = dropdown->buttons;
     sfRenderWindow_drawRectangleShape(window, dropdown->shape, NULL);
     for (; btn != NULL; btn = btn->next) {
         sfRenderWindow_drawRectangleShape(window, btn->button, NULL);
@@ -63,6 +66,18 @@ int check_dropdown_hover(global_t *global, void *dropdown_menu)
     }
     dropdown->displayed -= 1;
     return 0;
+}
+
+void check_dd_btn(global_t *global, button_t *btn)
+{
+    button_t *tmp = btn;
+
+    if (btn == NULL)
+        return;
+    for (; tmp->next != NULL; tmp = tmp->next) {
+        check_click_btn(global, tmp);
+        check_hover_btn(global, tmp);
+    }
 }
 
 dropdown_menu_t *init_dropdown(sfVector2f pos,

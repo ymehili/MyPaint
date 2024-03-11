@@ -77,6 +77,8 @@ struct global_s {
     sfEvent event;
     menubar_t *menubar;
     layer_t *layers;
+    int eraser;
+    int pencil;
 };
 
 int my_paint(int ac, char **av);
@@ -104,5 +106,11 @@ void draw_on_layer(global_t *global, sfVector2i mousePos);
 void reset_lastpos(global_t *global);
 layer_t *initlayers(void);
 int my_abs(int nb);
+int add_click_func(menubar_t *menubar, char *menu_btn, char *dd_btn,
+    int (*func)(global_t *global, void *param));
+int close_btn(global_t *global, void *param);
+void check_dd_btn(global_t *global, button_t *btn);
+int pick_pencil(global_t *global, void *param);
+int pick_eraser(global_t *global, void *param);
 
 #endif /* !MY_PAINT_H_ */
