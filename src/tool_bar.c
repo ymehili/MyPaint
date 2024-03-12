@@ -8,7 +8,7 @@
 #include "../include/my_paint.h"
 
 void handle_size_button(global_t *global, popup_t *popup, int i,
-    sfVector2f mousePos)
+    sfVector2i mousePos)
 {
     sfFloatRect bounds =
         sfRectangleShape_getGlobalBounds(popup->size_buttons[i]->button);
@@ -17,16 +17,22 @@ void handle_size_button(global_t *global, popup_t *popup, int i,
 }
 
 void handle_color_button(global_t *global, popup_t *popup, int i,
-    sfVector2f mousePos)
+    sfVector2i mousePos)
 {
     sfFloatRect bounds =
         sfRectangleShape_getGlobalBounds(popup->color_buttons[i]->button);
-    if (sfFloatRect_contains(&bounds, mousePos.x, mousePos.y))
+
+    printf("bounds: %f, %f, %f, %f\n", bounds.left, bounds.top, bounds.width, bounds.height);
+    printf("mousePos: %d, %d\n", mousePos.x, mousePos.y);
+    printf("color: %d\n", i);
+    if (sfFloatRect_contains(&bounds, mousePos.x, mousePos.y)){
         global->pencil->color = popup->colors[i];
+        printf("color: %d\n", i);
+    }
 }
 
 void handle_shape_button(global_t *global, popup_t *popup, int i,
-    sfVector2f mousePos)
+    sfVector2i mousePos)
 {
     sfFloatRect bounds =
         sfRectangleShape_getGlobalBounds(popup->shape_buttons[i]->button);
@@ -36,8 +42,8 @@ void handle_shape_button(global_t *global, popup_t *popup, int i,
 
 void initPopupAndButtons(popup_t *popup, global_t *global) {
     popup->popup = create_window(500, 500);
-    popup->colors[0] = sfBlack;
-    popup->colors[1] = sfWhite;
+    popup->colors[0] = sfRed;
+    popup->colors[1] = sfBlack;
     popup->colors[2] = sfRed;
     popup->colors[3] = sfGreen;
     popup->colors[4] = sfBlue;
@@ -70,10 +76,9 @@ void setFillColorForButtons(popup_t *popup, global_t *global) {
     sfRectangleShape_setFillColor(popup->size_buttons[2]->button, sfGreen);
 }
 
-void handleAndDisplayEvents(popup_t *popup, global_t *global) {
-    sfVector2f mousePos = (sfVector2f){popup->event.mouseButton.x,
-        popup->event.mouseButton.y};
-
+void handleAndDisplayEvents(popup_t *popup, global_t *global)
+{
+    sfVector2i mousePos;
     sfRenderWindow_setFramerateLimit(popup->popup, 60);
     while (sfRenderWindow_isOpen(popup->popup)){
         while (sfRenderWindow_pollEvent(popup->popup, &popup->event))
@@ -81,6 +86,7 @@ void handleAndDisplayEvents(popup_t *popup, global_t *global) {
             if (popup->event.type == sfEvtClosed)
                 sfRenderWindow_close(popup->popup);
             if (popup->event.type == sfEvtMouseButtonPressed) {
+                mousePos = sfMouse_getPositionRenderWindow(popup->popup);
                 for (int i = 0; i < 3; i++)
                     handle_size_button(global, popup, i, mousePos);
                 for (int i = 0; i < 10; i++)
