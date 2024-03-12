@@ -9,19 +9,42 @@
 
 void display_layer_button(sfRenderWindow *window, layer_t *layers)
 {
-    int ypos = 0;
+    int ypos = 30;
 
     for (layer_t *tmp = layers; tmp != NULL; tmp = tmp->next) {
+        sfRectangleShape_setFillColor(tmp->button->shape,
+            tmp->selected ? sfColor_fromRGB(0, 0, 255) :
+                sfColor_fromRGB(220, 220, 220));
         if (tmp->displayed) {
             sfRenderWindow_drawSprite(window, tmp->sprite, NULL);
-            sfText_setPosition(tmp->button->text, (sfVector2f){50, ypos + 50});
+            sfText_setPosition(tmp->button->text, (sfVector2f){50, ypos + 25});
             sfRectangleShape_setPosition(tmp->button->shape,
                 (sfVector2f){0, ypos});
             sfRenderWindow_drawRectangleShape(window, tmp->button->shape,
                 NULL);
             sfRenderWindow_drawText(window, tmp->button->text, NULL);
-            ypos += 100;
+            ypos += 70;
         }
+    }
+}
+
+void check_layer(global_t *global)
+{
+    layer_t *layer = global->layers;
+    sfRectangleShape *btn;
+    sfFloatRect rect;
+    sfVector2i mouse = sfMouse_getPositionRenderWindow(global->window);
+
+    for (; layer != NULL; layer = layer->next) {
+        btn = layer->button->shape;
+        rect = sfRectangleShape_getGlobalBounds(btn);
+        if (!(rect.left < mouse.x && rect.left + rect.width > mouse.x &&
+            rect.top < mouse.y && rect.top + rect.height > mouse.y &&
+            sfMouse_isButtonPressed(sfMouseLeft)))
+            continue;
+        for (layer_t *tmp = global->layers; tmp != NULL; tmp = tmp->next)
+            tmp->selected = 0;
+        layer->selected = 1;
     }
 }
 
@@ -43,5 +66,6 @@ int display(global_t *global)
         if (click == 1)
             ((dropdown_menu_t *)tmp->hover_param)->displayed = 0;
     }
+    check_layer(global);
     return 0;
 }

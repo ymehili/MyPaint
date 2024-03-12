@@ -90,14 +90,16 @@ static void drawline(global_t *global, sfVector2i mousePos, drawing_t *drw)
 void draw_on_layer(global_t *global, sfVector2i mousePos)
 {
     drawing_t *drw = malloc(sizeof(drawing_t));
+    layer_t *layer = global->layers;
 
+    for (; layer->selected != 1; layer = layer->next);
     if (findposonlayer(global, &mousePos, &drw) == 1)
         return;
     if (global->lastPos.x != -1 && global->lastPos.y != -1) {
         drawline(global, mousePos, drw);
     } else
         sfImage_setPixel(drw->image, mousePos.x, mousePos.y, drw->color);
-    sfTexture_updateFromImage(global->layers->texture, drw->image, 0, 0);
+    sfTexture_updateFromImage(layer->texture, drw->image, 0, 0);
     sfImage_destroy(drw->image);
     global->lastPos = mousePos;
 }

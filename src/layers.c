@@ -11,7 +11,7 @@ void initlayerbutton(layer_t *layers)
 {
     layers->button = malloc(sizeof(layerbutton_t));
     layers->button->shape = sfRectangleShape_create();
-    sfRectangleShape_setSize(layers->button->shape, (sfVector2f){200, 100});
+    sfRectangleShape_setSize(layers->button->shape, (sfVector2f){200, 70});
     sfRectangleShape_setFillColor(layers->button->shape, sfWhite);
     sfRectangleShape_setPosition(layers->button->shape, (sfVector2f){0, 0});
     layers->button->text = create_text(my_strdup(layers->name),
