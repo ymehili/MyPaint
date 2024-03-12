@@ -43,8 +43,8 @@ void zoom_out(layer_t *layers, sfVector2i mousePos, int delta)
 
 void reset_lastpos(global_t *global)
 {
-    global->lastPos.x = -1;
-    global->lastPos.y = -1;
+    global->pencil->lastPos.x = -1;
+    global->pencil->lastPos.y = -1;
 }
 
 static int findposonlayer(global_t *global, sfVector2i *mousePos,
@@ -62,7 +62,7 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
         return 1;
     mousePos->x = (mousePos->x - (*drw)->spritePos.x) / (*drw)->scale.x;
     mousePos->y = (mousePos->y - (*drw)->spritePos.y) / (*drw)->scale.y;
-    if (global->eraser == 1)
+    if (global->pencil->eraser == 1)
         (*drw)->color = sfTransparent;
     else
         (*drw)->color = global->color;
@@ -72,15 +72,15 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
 
 static void drawline(global_t *global, sfVector2i mousePos, drawing_t *drw)
 {
-    drw->diff.x = mousePos.x - global->lastPos.x;
-    drw->diff.y = mousePos.y - global->lastPos.y;
+    drw->diff.x = mousePos.x - global->pencil->lastPos.x;
+    drw->diff.y = mousePos.y - global->pencil->lastPos.y;
     drw->steps = my_abs(drw->diff.x) > my_abs(drw->diff.y) ?
         my_abs(drw->diff.x) : my_abs(drw->diff.y);
     drw->steps = drw->steps == 0 ? 1 : drw->steps;
     for (int i = 0; i <= drw->steps; i++) {
-        drw->interpolatedPos.x = global->lastPos.x + drw->diff.x * i
+        drw->interpolatedPos.x = global->pencil->lastPos.x + drw->diff.x * i
             / drw->steps;
-        drw->interpolatedPos.y = global->lastPos.y + drw->diff.y * i
+        drw->interpolatedPos.y = global->pencil->lastPos.y + drw->diff.y * i
             / drw->steps;
         sfImage_setPixel(drw->image, drw->interpolatedPos.x,
             drw->interpolatedPos.y, drw->color);
@@ -95,11 +95,11 @@ void draw_on_layer(global_t *global, sfVector2i mousePos)
     for (; layer->selected != 1; layer = layer->next);
     if (findposonlayer(global, &mousePos, &drw, layer) == 1)
         return;
-    if (global->lastPos.x != -1 && global->lastPos.y != -1) {
+    if (global->pencil->lastPos.x != -1 && global->pencil->lastPos.y != -1) {
         drawline(global, mousePos, drw);
     } else
         sfImage_setPixel(drw->image, mousePos.x, mousePos.y, drw->color);
     sfTexture_updateFromImage(layer->texture, drw->image, 0, 0);
     sfImage_destroy(drw->image);
-    global->lastPos = mousePos;
+    global->pencil->lastPos = mousePos;
 }

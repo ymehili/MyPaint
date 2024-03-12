@@ -86,17 +86,23 @@ typedef struct layer_s {
     struct layer_s *next;
 } layer_t;
 
-struct global_s {
+typedef struct pencil_s {
     sfVector2i lastPos;
+    sfColor color;
+    int size;
+    int eraser;
+    int pencil;
+} pencil_t;
+
+struct global_s {
     sfRenderWindow *window;
     sfEvent event;
     menubar_t *menubar;
-    int eraser;
-    int pencil;
     sfColor color;
     sfVector2i windowSize;
     layer_t *layers;
     int nb_layers;
+    pencil_t *pencil;
 };
 
 int my_paint(int ac, char **av);
@@ -136,5 +142,7 @@ sfRectangleShape *create_rectangle(sfVector2f position, sfVector2f size);
 sfText *create_text(char *str, sfVector2f position, char *fontfile, int size);
 int addlayer(global_t *global, void *param);
 int removelayer(global_t *global, void *param);
+void pencilpopup(global_t *global);
+void display_button(sfRenderWindow *window, button_t *button);
 
 #endif /* !MY_PAINT_H_ */

@@ -15,14 +15,15 @@ int close_btn(global_t *global, void *param)
 
 int pick_eraser(global_t *global, void *param)
 {
-    global->pencil = 0;
-    global->eraser = 1;
+    global->pencil->pencil = 0;
+    global->pencil->eraser = 1;
     return 0;
 }
 
 int pick_pencil(global_t *global, void *param)
 {
-    global->pencil = 1;
-    global->eraser = 0;
+    global->pencil->pencil = 1;
+    global->pencil->eraser = 0;
+    pencilpopup(global);
     return 0;
 }
