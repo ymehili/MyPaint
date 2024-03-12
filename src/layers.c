@@ -26,6 +26,8 @@ static void init_layer(layer_t *new, layer_t *tmp, global_t *global)
     new->name = my_strcat(new->name, "Layer ");
     new->name = my_strcat(new->name, my_putnbr_in_str(global->nb_layers + 1));
     new->sprite = sfSprite_create();
+    sfSprite_setTexture(new->sprite, new->texture, sfTrue);
+    sfSprite_setPosition(new->sprite, (sfVector2f){200, 200});
     new->selected = 1;
     new->displayed = 1;
     tmp->selected = 0;

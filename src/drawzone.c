@@ -48,13 +48,13 @@ void reset_lastpos(global_t *global)
 }
 
 static int findposonlayer(global_t *global, sfVector2i *mousePos,
-    drawing_t **drw)
+    drawing_t **drw, layer_t *layer)
 {
-    if (global->layers == NULL || !sfMouse_isButtonPressed(sfMouseLeft))
+    if (layer == NULL || !sfMouse_isButtonPressed(sfMouseLeft))
         return 1;
-    (*drw)->scale = sfSprite_getScale(global->layers->sprite);
-    (*drw)->spritePos = sfSprite_getPosition(global->layers->sprite);
-    (*drw)->textureSize = sfTexture_getSize(global->layers->texture);
+    (*drw)->scale = sfSprite_getScale(layer->sprite);
+    (*drw)->spritePos = sfSprite_getPosition(layer->sprite);
+    (*drw)->textureSize = sfTexture_getSize(layer->texture);
     if (mousePos->x < (*drw)->spritePos.x || mousePos->y < (*drw)->spritePos.y
         || mousePos->x >= (*drw)->spritePos.x + (*drw)->textureSize.x
         * (*drw)->scale.x || mousePos->y >= (*drw)->spritePos.y +
@@ -65,8 +65,8 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
     if (global->pencil->eraser == 1)
         (*drw)->color = sfTransparent;
     else
-        (*drw)->color = global->pencil->color;
-    (*drw)->image = sfTexture_copyToImage(global->layers->texture);
+        (*drw)->color = global->color;
+    (*drw)->image = sfTexture_copyToImage(layer->texture);
     return 0;
 }
 
@@ -93,7 +93,7 @@ void draw_on_layer(global_t *global, sfVector2i mousePos)
     layer_t *layer = global->layers;
 
     for (; layer->selected != 1; layer = layer->next);
-    if (findposonlayer(global, &mousePos, &drw) == 1)
+    if (findposonlayer(global, &mousePos, &drw, layer) == 1)
         return;
     if (global->pencil->lastPos.x != -1 && global->pencil->lastPos.y != -1) {
         drawline(global, mousePos, drw);
