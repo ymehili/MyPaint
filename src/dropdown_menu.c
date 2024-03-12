@@ -68,16 +68,18 @@ int check_dropdown_hover(global_t *global, void *dropdown_menu)
     return 0;
 }
 
-void check_dd_btn(global_t *global, button_t *btn)
+int check_dd_btn(global_t *global, button_t *btn)
 {
     button_t *tmp = btn;
 
     if (btn == NULL)
-        return;
+        return 0;
     for (; tmp != NULL; tmp = tmp->next) {
-        check_click_btn(global, tmp);
+        if (check_click_btn(global, tmp))
+            return 1;
         check_hover_btn(global, tmp);
     }
+    return 0;
 }
 
 dropdown_menu_t *init_dropdown(sfVector2f pos,

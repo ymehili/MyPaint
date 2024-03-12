@@ -12,7 +12,7 @@ static void add_menubar(global_t *global)
     add_dd_menu(global, "File", 4, "New file", "Open file",
         "Save file", "close");
     add_dd_menu(global, "Edit", 2, "Pencil", "Eraser");
-    add_dd_menu(global, "Layers", 2, "Add layer", "Remove layer");
+    add_dd_menu(global, "Layers", 2, "Add", "Remove");
     add_dd_menu(global, "Help", 2, "About", "Help");
     add_click_func(global->menubar, "File", "close", &close_btn);
     add_click_func(global->menubar, "Edit", "Pencil", &pick_pencil);
@@ -29,6 +29,7 @@ global_t *initglobal(void)
     global->window = create_window(WINDOW_WIDTH, WINDOW_HEIGHT);
     global->windowSize = (sfVector2i){WINDOW_WIDTH, WINDOW_HEIGHT};
     global->pencil = 1;
+    global->eraser = 0;
     global->color = sfBlack;
     global->menubar = initmenubar(4, global, "File", "Edit", "Layers", "Help");
     add_menubar(global);
