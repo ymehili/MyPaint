@@ -24,8 +24,8 @@ static void add_menubar(global_t *global)
 global_t *initglobal(void)
 {
     global_t *global = malloc(sizeof(global_t));
-    global->pencil = malloc(sizeof(pencil_t));
 
+    global->pencil = malloc(sizeof(pencil_t));
     global->pencil->lastPos = (sfVector2i){-1, -1};
     global->window = create_window(WINDOW_WIDTH, WINDOW_HEIGHT);
     global->windowSize = (sfVector2i){WINDOW_WIDTH, WINDOW_HEIGHT};

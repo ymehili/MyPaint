@@ -92,7 +92,17 @@ typedef struct pencil_s {
     int size;
     int eraser;
     int pencil;
+    int shape;
 } pencil_t;
+
+typedef struct popup_s {
+    sfRenderWindow *popup;
+    sfEvent event;
+    button_t *size_buttons[3];
+    button_t *color_buttons[10];
+    button_t *shape_buttons[2];
+    sfColor colors[10];
+} popup_t;
 
 struct global_s {
     sfRenderWindow *window;
