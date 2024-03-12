@@ -142,5 +142,7 @@ sfRectangleShape *create_rectangle(sfVector2f position, sfVector2f size);
 sfText *create_text(char *str, sfVector2f position, char *fontfile, int size);
 int addlayer(global_t *global, void *param);
 int removelayer(global_t *global, void *param);
+void pencilpopup(global_t *global);
+void display_button(sfRenderWindow *window, button_t *button);
 
 #endif /* !MY_PAINT_H_ */
