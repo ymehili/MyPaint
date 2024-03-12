@@ -96,13 +96,16 @@ struct global_s {
     sfColor color;
     sfVector2i windowSize;
     layer_t *layers;
+    int nb_layers;
 };
 
 int my_paint(int ac, char **av);
 sfRenderWindow *create_window(unsigned int width, unsigned int height);
 void *my_malloc(unsigned int size);
 int my_strlen(char const *str);
+char *my_strcat(char *dest, char *src);
 void my_putstr(char const *str);
+char *my_putnbr_in_str(int nb_init);
 int my_strcmp(char const *s1, char const *s2);
 button_t *initbutton(sfVector2f pos, sfVector2f size, char *text);
 menubar_t *initmenubar(int nbbuttons, global_t *global, ...);

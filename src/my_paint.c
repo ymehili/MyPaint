@@ -7,6 +7,20 @@
 
 #include "../include/my_paint.h"
 
+static void add_menubar(global_t *global)
+{
+    add_dd_menu(global, "File", 4, "New file", "Open file",
+        "Save file", "close");
+    add_dd_menu(global, "Edit", 2, "Pencil", "Eraser");
+    add_dd_menu(global, "Layers", 2, "Add layer", "Remove layer");
+    add_dd_menu(global, "Help", 2, "About", "Help");
+    add_click_func(global->menubar, "File", "close", &close_btn);
+    add_click_func(global->menubar, "Edit", "Pencil", &pick_pencil);
+    add_click_func(global->menubar, "Edit", "Eraser", &pick_eraser);
+    add_click_func(global->menubar, "Layers", "Add", &addlayer);
+    add_click_func(global->menubar, "Layers", "Remove", &removelayer);
+}
+
 global_t *initglobal(void)
 {
     global_t *global = malloc(sizeof(global_t));
@@ -17,17 +31,9 @@ global_t *initglobal(void)
     global->pencil = 1;
     global->color = sfBlack;
     global->menubar = initmenubar(4, global, "File", "Edit", "Layers", "Help");
-    add_dd_menu(global, "File", 4, "New file", "Open file",
-        "Save file", "close");
-    add_dd_menu(global, "Edit", 2, "Pencil", "Eraser");
-    add_dd_menu(global, "Layers", 2, "Add layer", "Remove layer");
-    add_dd_menu(global, "Help", 2, "About", "Help");
-    add_click_func(global->menubar, "File", "close", &close_btn);
-    add_click_func(global->menubar, "Edit", "Pencil", &pick_pencil);
-    add_click_func(global->menubar, "Edit", "Eraser", &pick_eraser);
-    add_click_func(global->menubar, "Layers", "Add layer", &addlayer);
-    add_click_func(global->menubar, "Layers", "Remove layer", &removelayer);
+    add_menubar(global);
     global->layers = initlayers();
+    global->nb_layers = 1;
     return (global);
 }
 
