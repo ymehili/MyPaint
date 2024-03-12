@@ -154,5 +154,7 @@ int addlayer(global_t *global, void *param);
 int removelayer(global_t *global, void *param);
 void pencilpopup(global_t *global);
 void display_button(sfRenderWindow *window, button_t *button);
+void handleevents(popup_t *popup, global_t *global);
+void displaybuttons(popup_t *popup);
 
 #endif /* !MY_PAINT_H_ */
