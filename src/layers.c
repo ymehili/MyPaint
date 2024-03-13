@@ -21,7 +21,7 @@ void initlayerbutton(layer_t *layers)
 
 static void init_layer(layer_t *new, layer_t *tmp, global_t *global)
 {
-    new->texture = sfTexture_create(800, 600);
+    new->texture = sfTexture_create(global->layerSize.x, global->layerSize.y);
     new->name = my_malloc(sizeof(char) * 7 + my_strlen(my_putnbr_in_str(
         global->nb_layers + 1)));
     new->name = my_strcat(new->name, "Layer ");
@@ -82,11 +82,11 @@ int removelayer(global_t *global, void *param)
     return 0;
 }
 
-static layer_t *create_layer(void)
+static layer_t *create_layer(sfVector2i size)
 {
     layer_t *layers = malloc(sizeof(layer_t));
 
-    layers->texture = sfTexture_create(800, 600);
+    layers->texture = sfTexture_create(size.x, size.y);
     layers->name = my_strdup("Layer 1");
     layers->selected = 1;
     layers->displayed = 1;
@@ -95,12 +95,12 @@ static layer_t *create_layer(void)
     return layers;
 }
 
-static void set_layer_image(layer_t *layers)
+static void set_layer_image(layer_t *layers, sfVector2i size)
 {
     sfImage* image;
     sfColor color = sfWhite;
 
-    image = sfImage_createFromColor(800, 600, color);
+    image = sfImage_createFromColor(size.x, size.y, color);
     sfTexture_updateFromImage(layers->texture, image, 0, 0);
     sfImage_destroy(image);
 }
@@ -116,11 +116,11 @@ static void set_layer_sprite(layer_t *layers)
     sfSprite_setPosition(layers->sprite, position);
 }
 
-layer_t *initlayers(void)
+layer_t *initlayers(sfVector2i size)
 {
-    layer_t *layers = create_layer();
+    layer_t *layers = create_layer(size);
 
-    set_layer_image(layers);
+    set_layer_image(layers, size);
     set_layer_sprite(layers);
     initlayerbutton(layers);
     return layers;

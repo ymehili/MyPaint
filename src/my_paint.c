@@ -31,12 +31,13 @@ global_t *initglobal(void)
     global->pencil->lastPos = (sfVector2i){-1, -1};
     global->window = create_window(WINDOW_WIDTH, WINDOW_HEIGHT);
     global->windowSize = (sfVector2i){WINDOW_WIDTH, WINDOW_HEIGHT};
+    global->layerSize = (sfVector2i){LAYER_WIDTH, LAYER_HEIGHT};
     global->pencil->pencil = 1;
     global->pencil->eraser = 0;
     global->pencil->color = sfBlack;
     global->menubar = initmenubar(4, global, "File", "Edit", "Layers", "Help");
     add_menubar(global);
-    global->layers = initlayers();
+    global->layers = initlayers(global->layerSize);
     global->nb_layers = 1;
     return (global);
 }

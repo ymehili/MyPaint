@@ -30,6 +30,8 @@
     #define MENUBAR_BTN_MARGIN 10
     #define WINDOW_WIDTH 1920
     #define WINDOW_HEIGHT 1080
+    #define LAYER_WIDTH 800
+    #define LAYER_HEIGHT 600
 
 typedef struct button_s button_t;
 typedef struct global_s global_t;
@@ -111,6 +113,7 @@ struct global_s {
     sfEvent event;
     menubar_t *menubar;
     sfVector2i windowSize;
+    sfVector2i layerSize;
     layer_t *layers;
     int nb_layers;
     pencil_t *pencil;
@@ -144,7 +147,7 @@ void zoom_in(layer_t *layers, sfVector2i mousePos, int delta);
 void zoom_out(layer_t *layers, sfVector2i mousePos, int delta);
 void draw_on_layer(global_t *global, sfVector2i mousePos);
 void reset_lastpos(global_t *global);
-layer_t *initlayers(void);
+layer_t *initlayers(sfVector2i size);
 int my_abs(int nb);
 int add_click_func(menubar_t *menubar, char *menu_btn, char *dd_btn,
     int (*func)(global_t *global, void *param));
