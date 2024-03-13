@@ -18,19 +18,132 @@ static void save_file_2(sfImage *layer_img, int i, sfImage *img)
     }
 }
 
+static void display_error(char *error, global_t *global)
+{
+    sfText *text = create_text(error, (sfVector2f){40, 150}, FONT_PATH, 18);
+
+    sfText_setColor(text, sfRed);
+    global->error_delay = 90;
+    global->error_txt = text;
+}
+
+char *folder_path(char *filename)
+{
+    int i = 0;
+    char *str;
+
+    for (; filename[i] != '\0'; i++);
+    for (; filename[i] != '/' && i > 0; i--);
+    if (i == 0)
+        return NULL;
+    str = my_strdup(filename);
+    str[i] = '\0';
+    return str;
+}
+
+static int check_filename_2(sfRenderWindow *new_window,
+    char *filename, global_t *global)
+{
+    DIR *dir;
+
+    if (folder_path(filename)) {
+        dir = opendir(folder_path(filename));
+        if (!dir) {
+            display_error("wrong path", global);
+            closedir(dir);
+            return 0;
+        } else
+            closedir(dir);
+    }
+    return 1;
+}
+
+static void check_filename(global_t *global, char *filename,
+    sfRenderWindow *new_window)
+{
+    int i = 0;
+
+    if (strlen(filename) == 0)
+        display_error("Filename can't be empty", global);
+    for (; filename[i] != '.' && filename[i] != '\0'; i++);
+    if (my_strcmp(&filename[i], ".png") != 0 &&
+        my_strcmp(&filename[i], ".jpg") != 0 &&
+        my_strcmp(&filename[i], ".bmp") != 0) {
+        display_error("Filename must end with .png \nor .jpg or .bmp", global);
+        return;
+    }
+    if (check_filename_2(new_window, filename, global))
+        sfRenderWindow_close(new_window);
+}
+
+static void handle_event(global_t *global,
+    sfRenderWindow *new_window, sfText *filename)
+{
+    sfEvent event;
+
+    while (sfRenderWindow_pollEvent(new_window, &event)) {
+        sfText_setString(filename, global->filename);
+        if (event.type == sfEvtKeyPressed && event.key.code == sfKeyReturn)
+            check_filename(global, global->filename, new_window);
+        if (event.type == sfEvtClosed) {
+            sfRenderWindow_close(new_window);
+            global->filename = NULL;
+        }
+        if (event.type != sfEvtTextEntered)
+            continue;
+        if (event.text.unicode == 8 && strlen(global->filename) > 0) {
+            global->filename[strlen(global->filename) - 1] = '\0';
+            continue;
+        }
+        if (event.text.unicode < 128 && strlen(global->filename) < 100)
+            global->filename = my_strcat(global->filename,
+                (char[2]){event.text.unicode, '\0'});
+    }
+}
+
+void get_filename(global_t *global)
+{
+    sfRenderWindow *new_window = create_window(400, 200);
+    sfText *text = create_text("Enter filename",
+        (sfVector2f){40, 50}, FONT_PATH, 30);
+    sfText *filename = create_text("", (sfVector2f){40, 100}, FONT_PATH, 22);
+
+    global->filename = my_malloc(sizeof(char) * 100);
+    sfRenderWindow_setFramerateLimit(new_window, 60);
+    while (sfRenderWindow_isOpen(new_window)) {
+        sfRenderWindow_clear(new_window, sfWhite);
+        sfRenderWindow_drawText(new_window, text, NULL);
+        sfRenderWindow_drawText(new_window, filename, NULL);
+        if (global->error_delay > 0 && global->error_txt != NULL) {
+            sfRenderWindow_drawText(new_window, global->error_txt, NULL);
+            global->error_delay--;
+        }
+        sfRenderWindow_display(new_window);
+        sfRenderWindow_display(global->window);
+        handle_event(global, new_window, filename);
+    }
+    sfRenderWindow_destroy(new_window);
+}
+
 int save_file(global_t *global, void *param)
 {
     layer_t *layer = global->layers;
     sfImage *img = sfTexture_copyToImage(global->layers->texture);
     sfImage *layer_img;
 
+    if (global->filename == NULL)
+        get_filename(global);
+    if (global->filename == NULL)
+        return 1;
     for (; layer != NULL; layer = layer->next) {
+        if (layer->displayed == 0)
+            continue;
         layer_img = sfTexture_copyToImage(layer->texture);
         for (int i = 0; i < sfImage_getSize(img).x; i++) {
             save_file_2(layer_img, i, img);
         }
         sfImage_destroy(layer_img);
     }
-    sfImage_saveToFile(img, "save.png");
+    sfImage_saveToFile(img, global->filename);
     return 0;
 }

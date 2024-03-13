@@ -24,6 +24,7 @@
     #include <math.h>
     #include <string.h>
     #include <stdarg.h>
+    #include <dirent.h>
     #define FONT_PATH "assets/font.ttf"
     #define MENUBAR_HEIGHT 30
     #define MENUBAR_BTN_MARGIN 10
@@ -113,6 +114,9 @@ struct global_s {
     layer_t *layers;
     int nb_layers;
     pencil_t *pencil;
+    char *filename;
+    sfText *error_txt;
+    int error_delay;
 };
 
 int my_paint(int ac, char **av);
