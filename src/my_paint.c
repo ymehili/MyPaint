@@ -40,6 +40,7 @@ global_t *initglobal(void)
     add_menubar(global);
     global->layers = initlayers(global->layerSize, global);
     global->nb_layers = 1;
+    pencilpopup(global);
     return (global);
 }
 
@@ -77,6 +78,7 @@ void event(global_t *global)
             sfRenderWindow_close(global->window);
         mousePos = sfMouse_getPositionRenderWindow(global->window);
         handlevents(global, mousePos);
+        handlepopupevents(global->popup, global);
     }
     if (size.x != global->windowSize.x || size.y != global->windowSize.y) {
         global->windowSize = (sfVector2i){size.x, size.y};

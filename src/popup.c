@@ -7,7 +7,7 @@
 
 #include "../include/my_paint.h"
 
-static void initcolorandsizebuttons(popup_t *popup)
+static void initcolorandsizebuttons(popup_t *popup, global_t *global)
 {
     popup->colors[0] = sfRed;
     popup->colors[1] = sfBlack;
@@ -20,16 +20,17 @@ static void initcolorandsizebuttons(popup_t *popup)
     popup->colors[8] = sfTransparent;
     popup->colors[9] = sfColor_fromRGB(255, 165, 0);
     for (int i = 0; i < 3; i++){
-        popup->size_buttons[i] = initbutton((sfVector2f){50, i * 50},
-            (sfVector2f){50, 50}, my_putnbr_in_str(i + 1));
+        popup->size_buttons[i] = initbutton((sfVector2f){50 * i,
+            global->windowSize.y - 50}, (sfVector2f){50, 50},
+            my_putnbr_in_str(i + 1));
     }
 }
 
-static void initcolorandshapebuttons(popup_t *popup)
+static void initcolorandshapebuttons(popup_t *popup, global_t *global)
 {
     for (int i = 0; i < 10; i++) {
-        popup->color_buttons[i] = initbutton((sfVector2f){100, i * 50},
-            (sfVector2f){50, 50}, "");
+        popup->color_buttons[i] = initbutton((sfVector2f){200 + 50 * i,
+            global->windowSize.y - 50}, (sfVector2f){50, 50}, "");
         sfRectangleShape_setFillColor(popup->color_buttons[i]->button,
             popup->colors[i]);
     }
@@ -41,9 +42,8 @@ static void initcolorandshapebuttons(popup_t *popup)
 
 static void initpopupandbuttons(popup_t *popup, global_t *global)
 {
-    popup->popup = create_window(500, 500);
-    initcolorandsizebuttons(popup);
-    initcolorandshapebuttons(popup);
+    initcolorandsizebuttons(popup, global);
+    initcolorandshapebuttons(popup, global);
 }
 
 static void setfillcolorforbuttons(popup_t *popup, global_t *global)
@@ -55,21 +55,16 @@ static void setfillcolorforbuttons(popup_t *popup, global_t *global)
     sfRectangleShape_setFillColor(popup->size_buttons[2]->button, sfGreen);
 }
 
-void handleanddisplayevents(popup_t *popup, global_t *global)
+void displaypopup(popup_t *popup, global_t *global)
 {
-    sfRenderWindow_setFramerateLimit(popup->popup, 60);
-    while (sfRenderWindow_isOpen(popup->popup)) {
-        handleevents(popup, global);
-        displaybuttons(popup);
-        sfRenderWindow_display(global->window);
-    }
+    handlepopupevents(popup, global);
+    displaybuttons(popup, global);
 }
 
 void pencilpopup(global_t *global)
 {
-    popup_t *popup = malloc(sizeof(popup_t));
+    global->popup = malloc(sizeof(popup_t));
 
-    initpopupandbuttons(popup, global);
-    setfillcolorforbuttons(popup, global);
-    handleanddisplayevents(popup, global);
+    initpopupandbuttons(global->popup, global);
+    setfillcolorforbuttons(global->popup, global);
 }

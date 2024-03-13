@@ -48,28 +48,22 @@ static void handlebuttons(popup_t *popup, global_t *global,
         handle_shape_button(global, popup, i, mousePos);
 }
 
-void handleevents(popup_t *popup, global_t *global)
+void handlepopupevents(popup_t *popup, global_t *global)
 {
     sfVector2i mousePos;
 
-    while (sfRenderWindow_pollEvent(popup->popup, &popup->event)) {
-        if (popup->event.type == sfEvtClosed)
-            sfRenderWindow_close(popup->popup);
-        if (popup->event.type == sfEvtMouseButtonPressed) {
-            mousePos = sfMouse_getPositionRenderWindow(popup->popup);
-            handlebuttons(popup, global, mousePos);
-        }
+    if (global->event.type == sfEvtMouseButtonPressed) {
+        mousePos = sfMouse_getPositionRenderWindow(global->window);
+        handlebuttons(popup, global, mousePos);
     }
 }
 
-void displaybuttons(popup_t *popup)
+void displaybuttons(popup_t *popup, global_t *global)
 {
-    sfRenderWindow_clear(popup->popup, sfBlack);
     for (int i = 0; i < 3; i++)
-        display_button(popup->popup, popup->size_buttons[i]);
+        display_button(global->window, popup->size_buttons[i]);
     for (int i = 0; i < 10; i++)
-        display_button(popup->popup, popup->color_buttons[i]);
+        display_button(global->window, popup->color_buttons[i]);
     for (int i = 0; i < 2; i++)
-        display_button(popup->popup, popup->shape_buttons[i]);
-    sfRenderWindow_display(popup->popup);
+        display_button(global->window, popup->shape_buttons[i]);
 }

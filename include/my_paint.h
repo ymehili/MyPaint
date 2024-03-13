@@ -121,6 +121,7 @@ struct global_s {
     sfText *error_txt;
     int error_delay;
     float zoom;
+    popup_t *popup;
 };
 
 int my_paint(int ac, char **av);
@@ -163,7 +164,7 @@ int removelayer(global_t *global, void *param);
 void pencilpopup(global_t *global);
 void display_button(sfRenderWindow *window, button_t *button);
 void handleevents(popup_t *popup, global_t *global);
-void displaybuttons(popup_t *popup);
+void displaybuttons(popup_t *popup, global_t *global);
 int save_file(global_t *global, void *param);
 int new_file(global_t *global, void *param);
 int open_file(global_t *global, void *param);
@@ -172,5 +173,7 @@ void get_filename(global_t *global,
 void display_error(char *error, global_t *global);
 void initlayerbutton(layer_t *layers);
 void set_layer_sprite(layer_t *layers);
+void displaypopup(popup_t *popup, global_t *global);
+void handlepopupevents(popup_t *popup, global_t *global);
 
 #endif /* !MY_PAINT_H_ */

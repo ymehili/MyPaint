@@ -79,6 +79,7 @@ int display(global_t *global)
     display_layers(global->window, global->layers);
     display_layer_button(global->window, global->layers);
     display_menubar(global->window, global->menubar);
+    displaypopup(global->popup, global);
     for (; tmp != NULL; tmp = tmp->next) {
         if (check_hover_btn(global, tmp))
             ((dropdown_menu_t *)tmp->hover_param)->displayed = 10;
