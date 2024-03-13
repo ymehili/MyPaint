@@ -23,11 +23,11 @@ void handle_event(global_t *global,
         }
         if (event.type != sfEvtTextEntered)
             continue;
-        if (event.text.unicode == 8 && strlen(global->filename) > 0) {
+        if (event.text.unicode == 8 && my_strlen(global->filename) > 0) {
             global->filename[strlen(global->filename) - 1] = '\0';
             continue;
         }
-        if (event.text.unicode < 128 && strlen(global->filename) < 30)
+        if (event.text.unicode < 128 && my_strlen(global->filename) < 30)
             global->filename = my_strcat(global->filename,
                 (char[2]){event.text.unicode, '\0'});
     }
