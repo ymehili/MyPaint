@@ -71,7 +71,6 @@ void displaypopup(popup_t *popup, global_t *global)
 void pencilpopup(global_t *global)
 {
     global->popup = malloc(sizeof(popup_t));
-
     initpopupandbuttons(global->popup, global);
     setfillcolorforbuttons(global->popup, global);
 }
