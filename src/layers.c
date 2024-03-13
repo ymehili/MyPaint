@@ -16,6 +16,7 @@ void initlayerbutton(layer_t *layers)
     sfRectangleShape_setPosition(layers->button->shape, (sfVector2f){0, 0});
     layers->button->text = create_text(my_strdup(layers->name),
         (sfVector2f){50, 50}, FONT_PATH, 20);
+    layers->button->delay = -1;
 }
 
 static void init_layer(layer_t *new, layer_t *tmp, global_t *global)
