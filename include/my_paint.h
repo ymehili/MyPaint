@@ -108,7 +108,6 @@ struct global_s {
     sfRenderWindow *window;
     sfEvent event;
     menubar_t *menubar;
-    sfColor color;
     sfVector2i windowSize;
     layer_t *layers;
     int nb_layers;
