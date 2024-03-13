@@ -165,5 +165,11 @@ void handleevents(popup_t *popup, global_t *global);
 void displaybuttons(popup_t *popup);
 int save_file(global_t *global, void *param);
 int new_file(global_t *global, void *param);
+int open_file(global_t *global, void *param);
+void get_filename(global_t *global,
+    void (*check)(global_t *, char *, sfRenderWindow *));
+void display_error(char *error, global_t *global);
+void initlayerbutton(layer_t *layers);
+void set_layer_sprite(layer_t *layers);
 
 #endif /* !MY_PAINT_H_ */

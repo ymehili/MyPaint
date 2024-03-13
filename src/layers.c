@@ -105,7 +105,7 @@ static void set_layer_image(layer_t *layers, sfVector2i size)
     sfImage_destroy(image);
 }
 
-static void set_layer_sprite(layer_t *layers)
+void set_layer_sprite(layer_t *layers)
 {
     sfVector2f position;
 
