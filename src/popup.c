@@ -61,6 +61,7 @@ void handleanddisplayevents(popup_t *popup, global_t *global)
     while (sfRenderWindow_isOpen(popup->popup)) {
         handleevents(popup, global);
         displaybuttons(popup);
+        sfRenderWindow_display(global->window);
     }
 }
 
