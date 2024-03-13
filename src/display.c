@@ -7,6 +7,16 @@
 
 #include "../include/my_paint.h"
 
+
+void display_layers(sfRenderWindow *window, layer_t *layers)
+{
+    for (layer_t *tmp = layers; tmp != NULL; tmp = tmp->next) {
+        if (tmp->displayed) {
+            sfRenderWindow_drawSprite(window, tmp->sprite, NULL);
+        }
+    }
+}
+
 void display_layer_button(sfRenderWindow *window, layer_t *layers)
 {
     int ypos = 30;
@@ -25,9 +35,6 @@ void display_layer_button(sfRenderWindow *window, layer_t *layers)
             NULL);
         sfRenderWindow_drawText(window, tmp->button->text, NULL);
         ypos += 70;
-        if (tmp->displayed) {
-            sfRenderWindow_drawSprite(window, tmp->sprite, NULL);
-        }
     }
 }
 
@@ -69,6 +76,7 @@ int display(global_t *global)
     button_t *tmp = global->menubar->buttons;
     int click = 0;
 
+    display_layers(global->window, global->layers);
     display_layer_button(global->window, global->layers);
     display_menubar(global->window, global->menubar);
     for (; tmp != NULL; tmp = tmp->next) {
