@@ -90,8 +90,22 @@ static void drawline(global_t *global, sfVector2i mousePos, drawing_t *drw)
             / drw->steps;
         drw->interpolatedPos.y = global->pencil->lastPos.y + drw->diff.y * i
             / drw->steps;
-        sfImage_setPixel(drw->image, drw->interpolatedPos.x,
-            drw->interpolatedPos.y, drw->color);
+        if (global->pencil->shape == 1)
+            for (int angle = 0; angle < 360; angle++) {
+                int dx = global->pencil->size * cos(angle * M_PI / 180.0);
+                int dy = global->pencil->size * sin(angle * M_PI / 180.0);
+                sfImage_setPixel(drw->image, drw->interpolatedPos.x + dx,
+                    drw->interpolatedPos.y + dy, drw->color);
+            }
+        else
+            for (int dx = -global->pencil->size; dx <= global->pencil->size; dx++) {
+                for (int dy = -global->pencil->size; dy <= global->pencil->size; dy++) {
+                    if (dx == -global->pencil->size || dx == global->pencil->size || dy == -global->pencil->size || dy == global->pencil->size) {
+                        sfImage_setPixel(drw->image, drw->interpolatedPos.x + dx,
+                            drw->interpolatedPos.y + dy, drw->color);
+                    }
+                }
+            }
     }
 }
 

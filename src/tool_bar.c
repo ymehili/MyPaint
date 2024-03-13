@@ -33,8 +33,9 @@ static void handle_shape_button(global_t *global, popup_t *popup, int i,
     sfFloatRect bounds =
         sfRectangleShape_getGlobalBounds(popup->shape_buttons[i]->button);
 
-    if (sfFloatRect_contains(&bounds, mousePos.x, mousePos.y))
-        global->pencil->shape = i;
+    if (sfFloatRect_contains(&bounds, mousePos.x, mousePos.y)){
+        global->pencil->shape = i + 1;
+    }
 }
 
 static void handlebuttons(popup_t *popup, global_t *global,
@@ -60,10 +61,20 @@ void handlepopupevents(popup_t *popup, global_t *global)
 
 void displaybuttons(popup_t *popup, global_t *global)
 {
-    for (int i = 0; i < 3; i++)
+    sfColor color = sfColor_fromRGB(220, 220, 220);
+
+    sfRectangleShape_setFillColor(popup->shape_buttons[global->pencil->shape -
+        1]->button, sfBlue);
+    sfRectangleShape_setFillColor(popup->size_buttons[global->pencil->size -
+        1]->button, sfBlue);
+    for (int i = 0; i < 3; i++){
         display_button(global->window, popup->size_buttons[i]);
+        sfRectangleShape_setFillColor(popup->size_buttons[i]->button, color);
+    }
     for (int i = 0; i < 10; i++)
         display_button(global->window, popup->color_buttons[i]);
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 2; i++){
         display_button(global->window, popup->shape_buttons[i]);
+        sfRectangleShape_setFillColor(popup->shape_buttons[i]->button, color);
+    }
 }
