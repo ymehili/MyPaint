@@ -20,6 +20,7 @@ static void add_menubar(global_t *global)
     add_click_func(global->menubar, "Layers", "Add", &addlayer);
     add_click_func(global->menubar, "Layers", "Remove", &removelayer);
     add_click_func(global->menubar, "File", "Save file", &save_file);
+    add_click_func(global->menubar, "File", "New file", &new_file);
 }
 
 global_t *initglobal(void)

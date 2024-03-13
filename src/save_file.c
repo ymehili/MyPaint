@@ -18,7 +18,7 @@ static void save_file_2(sfImage *layer_img, int i, sfImage *img)
     }
 }
 
-static void display_error(char *error, global_t *global)
+void display_error(char *error, global_t *global)
 {
     sfText *text = create_text(error, (sfVector2f){40, 150}, FONT_PATH, 18);
 
@@ -95,7 +95,7 @@ static void handle_event(global_t *global,
             global->filename[strlen(global->filename) - 1] = '\0';
             continue;
         }
-        if (event.text.unicode < 128 && strlen(global->filename) < 100)
+        if (event.text.unicode < 128 && strlen(global->filename) < 30)
             global->filename = my_strcat(global->filename,
                 (char[2]){event.text.unicode, '\0'});
     }
@@ -104,11 +104,11 @@ static void handle_event(global_t *global,
 void get_filename(global_t *global)
 {
     sfRenderWindow *new_window = create_window(400, 200);
-    sfText *text = create_text("Enter filename",
+    sfText *text = create_text("Enter filename :",
         (sfVector2f){40, 50}, FONT_PATH, 30);
-    sfText *filename = create_text("", (sfVector2f){40, 100}, FONT_PATH, 22);
+    sfText *filename = create_text("", (sfVector2f){10, 100}, FONT_PATH, 22);
 
-    global->filename = my_malloc(sizeof(char) * 100);
+    global->filename = my_malloc(sizeof(char) * 31);
     sfRenderWindow_setFramerateLimit(new_window, 60);
     while (sfRenderWindow_isOpen(new_window)) {
         sfRenderWindow_clear(new_window, sfWhite);
