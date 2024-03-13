@@ -21,6 +21,9 @@ void initlayerbutton(layer_t *layers)
 
 static void init_layer(layer_t *new, layer_t *tmp, global_t *global)
 {
+    sfVector2f position = sfSprite_getPosition(global->layers->sprite);
+    sfVector2f scale = sfSprite_getScale(global->layers->sprite);
+
     new->texture = sfTexture_create(global->layerSize.x, global->layerSize.y);
     new->name = my_malloc(sizeof(char) * 7 + my_strlen(my_putnbr_in_str(
         global->nb_layers + 1)));
@@ -28,7 +31,8 @@ static void init_layer(layer_t *new, layer_t *tmp, global_t *global)
     new->name = my_strcat(new->name, my_putnbr_in_str(global->nb_layers + 1));
     new->sprite = sfSprite_create();
     sfSprite_setTexture(new->sprite, new->texture, sfTrue);
-    sfSprite_setPosition(new->sprite, (sfVector2f){200, 200});
+    sfSprite_setPosition(new->sprite, position);
+    sfSprite_setScale(new->sprite, scale);
     new->selected = 1;
     new->displayed = 1;
     tmp->selected = 0;
@@ -82,7 +86,7 @@ int removelayer(global_t *global, void *param)
     return 0;
 }
 
-static layer_t *create_layer(sfVector2i size)
+static layer_t *create_layer(sfVector2i size, global_t *global)
 {
     layer_t *layers = malloc(sizeof(layer_t));
 
@@ -116,9 +120,9 @@ void set_layer_sprite(layer_t *layers)
     sfSprite_setPosition(layers->sprite, position);
 }
 
-layer_t *initlayers(sfVector2i size)
+layer_t *initlayers(sfVector2i size, global_t *global)
 {
-    layer_t *layers = create_layer(size);
+    layer_t *layers = create_layer(size, global);
 
     set_layer_image(layers, size);
     set_layer_sprite(layers);

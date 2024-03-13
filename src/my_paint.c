@@ -38,7 +38,7 @@ global_t *initglobal(void)
     global->pencil->color = sfBlack;
     global->menubar = initmenubar(4, global, "File", "Edit", "Layers", "Help");
     add_menubar(global);
-    global->layers = initlayers(global->layerSize);
+    global->layers = initlayers(global->layerSize, global);
     global->nb_layers = 1;
     return (global);
 }

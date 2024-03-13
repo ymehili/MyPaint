@@ -25,7 +25,7 @@ int new_file(global_t *global, void *param)
         free(layers->button);
     }
     global->nb_layers = 1;
-    global->layers = initlayers(global->layerSize);
+    global->layers = initlayers(global->layerSize, global);
     global->filename = NULL;
     return 0;
 }

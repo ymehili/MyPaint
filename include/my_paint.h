@@ -120,6 +120,7 @@ struct global_s {
     char *filename;
     sfText *error_txt;
     int error_delay;
+    float zoom;
 };
 
 int my_paint(int ac, char **av);
@@ -147,7 +148,7 @@ void zoom_in(layer_t *layers, sfVector2i mousePos, int delta);
 void zoom_out(layer_t *layers, sfVector2i mousePos, int delta);
 void draw_on_layer(global_t *global, sfVector2i mousePos);
 void reset_lastpos(global_t *global);
-layer_t *initlayers(sfVector2i size);
+layer_t *initlayers(sfVector2i size, global_t *global);
 int my_abs(int nb);
 int add_click_func(menubar_t *menubar, char *menu_btn, char *dd_btn,
     int (*func)(global_t *global, void *param));
