@@ -15,16 +15,30 @@ void display_layer_button(sfRenderWindow *window, layer_t *layers)
         sfRectangleShape_setFillColor(tmp->button->shape,
             tmp->selected ? sfColor_fromRGB(0, 0, 255) :
                 sfColor_fromRGB(220, 220, 220));
+        if (!tmp->displayed)
+            sfRectangleShape_setFillColor(tmp->button->shape,
+                sfColor_fromRGB(220, 0, 0));
+        sfText_setPosition(tmp->button->text, (sfVector2f){50, ypos + 25});
+        sfRectangleShape_setPosition(tmp->button->shape,
+            (sfVector2f){0, ypos});
+        sfRenderWindow_drawRectangleShape(window, tmp->button->shape,
+            NULL);
+        sfRenderWindow_drawText(window, tmp->button->text, NULL);
+        ypos += 70;
         if (tmp->displayed) {
             sfRenderWindow_drawSprite(window, tmp->sprite, NULL);
-            sfText_setPosition(tmp->button->text, (sfVector2f){50, ypos + 25});
-            sfRectangleShape_setPosition(tmp->button->shape,
-                (sfVector2f){0, ypos});
-            sfRenderWindow_drawRectangleShape(window, tmp->button->shape,
-                NULL);
-            sfRenderWindow_drawText(window, tmp->button->text, NULL);
-            ypos += 70;
         }
+    }
+}
+
+static void check_left_click_layer_btn(global_t *global, layer_t *layer,
+    sfFloatRect rect, sfVector2i mouse)
+{
+    if (rect.left < mouse.x && rect.left + rect.width > mouse.x &&
+        rect.top < mouse.y && rect.top + rect.height > mouse.y &&
+        sfMouse_isButtonPressed(sfMouseRight) && layer->button->delay < 0) {
+        layer->displayed = !layer->displayed;
+        layer->button->delay = 10;
     }
 }
 
@@ -36,11 +50,13 @@ void check_layer(global_t *global)
     sfVector2i mouse = sfMouse_getPositionRenderWindow(global->window);
 
     for (; layer != NULL; layer = layer->next) {
+        layer->button->delay--;
         btn = layer->button->shape;
         rect = sfRectangleShape_getGlobalBounds(btn);
+        check_left_click_layer_btn(global, layer, rect, mouse);
         if (!(rect.left < mouse.x && rect.left + rect.width > mouse.x &&
             rect.top < mouse.y && rect.top + rect.height > mouse.y &&
-            sfMouse_isButtonPressed(sfMouseLeft)))
+            sfMouse_isButtonPressed(sfMouseLeft) && layer->button->delay < 0))
             continue;
         for (layer_t *tmp = global->layers; tmp != NULL; tmp = tmp->next)
             tmp->selected = 0;

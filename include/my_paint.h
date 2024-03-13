@@ -73,6 +73,7 @@ typedef struct layerbutton_s {
     sfTexture *imageTexture;
     sfText *text;
     int selected;
+    int delay;
 } layerbutton_t;
 
 typedef struct layer_s {
