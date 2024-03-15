@@ -15,11 +15,6 @@ static int findposonlayer(global_t *global, sfVector2i *mousePos,
     (*drw)->scale = sfSprite_getScale(layer->sprite);
     (*drw)->spritePos = sfSprite_getPosition(layer->sprite);
     (*drw)->textureSize = sfTexture_getSize(layer->texture);
-    if (mousePos->x < (*drw)->spritePos.x || mousePos->y < (*drw)->spritePos.y
-        || mousePos->x >= (*drw)->spritePos.x + (*drw)->textureSize.x
-        * (*drw)->scale.x || mousePos->y >= (*drw)->spritePos.y +
-        (*drw)->textureSize.y * (*drw)->scale.y)
-        return 1;
     mousePos->x = (mousePos->x - (*drw)->spritePos.x) / (*drw)->scale.x;
     mousePos->y = (mousePos->y - (*drw)->spritePos.y) / (*drw)->scale.y;
     if (global->pencil->eraser == 1)
@@ -64,7 +59,7 @@ static void set_pixel_if_edge(global_t *global, drawing_t *drw, int dx,
     int dy)
 {
     sfFloatRect bounds = {drw->spritePos.x, drw->spritePos.y,
-        drw->textureSize.x * drw->scale.x, drw->textureSize.y * drw->scale.y};
+        drw->textureSize.x, drw->textureSize.y};
 
     if (0 <= drw->interpolatedPos.x + dx && drw->interpolatedPos.x
         + dx < bounds.width && 0 <= drw->interpolatedPos.y
@@ -117,8 +112,11 @@ void draw_on_layer(global_t *global, sfVector2i mousePos)
     if (global->pencil->lastPos.x != -1 && global->pencil->lastPos.y != -1) {
         drawline(global, mousePos, drw);
     } else
-        sfImage_setPixel(drw->image, mousePos.x, mousePos.y,
-            global->pencil->color);
+        if (0 <= mousePos.x && mousePos.x
+            < drw->textureSize.x && 0 <= mousePos.y &&
+            mousePos.y < drw->textureSize.y)
+            sfImage_setPixel(drw->image, mousePos.x, mousePos.y,
+                global->pencil->color);
     sfTexture_updateFromImage(layer->texture, drw->image, 0, 0);
     sfImage_destroy(drw->image);
     global->pencil->lastPos = mousePos;
