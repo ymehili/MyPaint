@@ -44,6 +44,8 @@ struct button_s {
     button_t *next;
     int (*hover_func)(global_t *, void *);
     int (*click_func)(global_t *, void *);
+    int (*released_func)(global_t *, void *);
+    void *released_param;
     void *hover_param;
     void *click_param;
 };
@@ -163,7 +165,6 @@ int addlayer(global_t *global, void *param);
 int removelayer(global_t *global, void *param);
 void pencilpopup(global_t *global);
 void display_button(sfRenderWindow *window, button_t *button);
-void handleevents(popup_t *popup, global_t *global);
 void displaybuttons(popup_t *popup, global_t *global);
 int save_file(global_t *global, void *param);
 int new_file(global_t *global, void *param);
