@@ -24,6 +24,7 @@ int new_file(global_t *global, void *param)
         sfText_destroy(layers->button->text);
         free(layers->button);
     }
+    global->layerSize = (sfVector2i){LAYER_WIDTH, LAYER_HEIGHT};
     global->nb_layers = 1;
     global->layers = initlayers(global->layerSize, global);
     global->filename = NULL;

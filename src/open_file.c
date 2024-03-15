@@ -48,6 +48,8 @@ int open_file(global_t *global, void *param)
     if (global->filename == NULL)
         return 0;
     image = sfImage_createFromFile(global->filename);
+    global->layerSize = (sfVector2i){sfImage_getSize(image).x,
+        sfImage_getSize(image).y};
     layers->texture = sfTexture_create(sfImage_getSize(image).x,
         sfImage_getSize(image).y);
     layers->name = my_strdup("Layer 1");
