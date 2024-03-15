@@ -76,8 +76,18 @@ static void draw_circle(global_t *global, drawing_t *drw)
     for (int angle = 0; angle < 360; angle++) {
         dx = global->pencil->size * cos(angle * M_PI / 180.0);
         dy = global->pencil->size * sin(angle * M_PI / 180.0);
-        set_pixel_if_edge(global, drw, dx, dy);
+        sfImage_setPixel(drw->image, drw->interpolatedPos.x + dx,
+            drw->interpolatedPos.y + dy, drw->color);
     }
+}
+
+static void set_pixel_if_edge(global_t *global, drawing_t *drw, int dx,
+    int dy)
+{
+    if (dx == -global->pencil->size || dx == global->pencil->size ||
+        dy == -global->pencil->size || dy == global->pencil->size)
+        sfImage_setPixel(drw->image, drw->interpolatedPos.x + dx,
+            drw->interpolatedPos.y + dy, drw->color);
 }
 
 static void draw_square(global_t *global, drawing_t *drw)
