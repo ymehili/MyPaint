@@ -175,5 +175,7 @@ void initlayerbutton(layer_t *layers);
 void set_layer_sprite(layer_t *layers);
 void displaypopup(popup_t *popup, global_t *global);
 void handlepopupevents(popup_t *popup, global_t *global);
+int about(global_t *global, void *param);
+int help(global_t *global, void *param);
 
 #endif /* !MY_PAINT_H_ */

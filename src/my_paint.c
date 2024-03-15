@@ -22,6 +22,8 @@ static void add_menubar(global_t *global)
     add_click_func(global->menubar, "File", "Save file", &save_file);
     add_click_func(global->menubar, "File", "New file", &new_file);
     add_click_func(global->menubar, "File", "Open file", &open_file);
+    add_click_func(global->menubar, "Help", "About", &about);
+    add_click_func(global->menubar, "Help", "Help", &help);
 }
 
 global_t *initglobal(void)
@@ -97,8 +99,6 @@ int my_paint(int argc, char **argv)
     while (sfRenderWindow_isOpen(global->window)) {
         event(global);
         sfRenderWindow_clear(global->window, sfColor_fromRGB(190, 190, 190));
-        if (update(global) != 0)
-            break;
         if (display(global) != 0)
             break;
         sfRenderWindow_display(global->window);
