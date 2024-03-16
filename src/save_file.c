@@ -63,7 +63,7 @@ static void check_filename(global_t *global, char *filename,
 {
     int i = 0;
 
-    if (strlen(filename) == 0)
+    if (my_strlen(filename) == 0)
         display_error("Filename can't be empty", global);
     for (; filename[i] != '.' && filename[i] != '\0'; i++);
     if (my_strcmp(&filename[i], ".png") != 0 &&

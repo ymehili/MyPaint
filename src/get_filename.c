@@ -24,7 +24,7 @@ void handle_event(global_t *global,
         if (event.type != sfEvtTextEntered)
             continue;
         if (event.text.unicode == 8 && my_strlen(global->filename) > 0) {
-            global->filename[strlen(global->filename) - 1] = '\0';
+            global->filename[my_strlen(global->filename) - 1] = '\0';
             continue;
         }
         if (event.text.unicode < 128 && my_strlen(global->filename) < 30)
